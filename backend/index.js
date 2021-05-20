@@ -14,6 +14,7 @@ app.use('/api/posts',postRoutes)
 
 mongoose.connect(mongoUri,{useNewUrlParser:true, useUnifiedTopology:true})
     .then(()=>{
+        console.log(`connected to mongoose at ${mongoUri}`);
         app.listen(PORT, ()=> {
             console.log(`server is running on PORT ${PORT}`);
         })
@@ -21,7 +22,7 @@ mongoose.connect(mongoUri,{useNewUrlParser:true, useUnifiedTopology:true})
     .catch((error)=>{
         console.log(error);
     });
-
+mongoose.set('debug', true);
 mongoose.set('useFindAndModify',false);
 
 
