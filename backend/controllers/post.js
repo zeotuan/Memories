@@ -32,6 +32,20 @@ export const updatePost = async (req,res) => {
         const updatedPost = await postMessage.findByIdAndUpdate(id,body,{new:true});
         res.json(updatedPost);
     } catch (error) {
-        res.status(400).json({error:error.message});
+        res.status(400).json({error:error});
+    }
+}
+
+export const deletePost = async (req,res) => {
+    const id = req.params.id;
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(400).json({error:'invalid id'});
+    }
+    const body = req.body;
+    try {
+        await postMessage.findByIdAndDelete(id);
+        res.json({message:'post delete successfully'})
+    } catch (error) {
+        res.status(400).json({error:error});
     }
 }

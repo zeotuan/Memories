@@ -5,10 +5,12 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
+import {useDispatch} from 'react-redux';
+import {deletePost} from '../../../state/Posts/actionCreators';
 
 const Post = ({setCurId, post}) => {
     const classes  = useStyles(); 
-
+    const dispatch = useDispatch();
     return (
         <Card className={classes.card}> 
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title}/>
@@ -32,7 +34,7 @@ const Post = ({setCurId, post}) => {
                 <Button size="small" color="primary" onClick={()=>{}}>
                     <ThumbUpAltIcon fontSize="small" /> Like {post.likeCount}
                 </Button>
-                <Button size="small" color="primary" onClick={()=>{}}>
+                <Button size="small" color="primary" onClick={()=>{window.confirm("do you want to delete this post") && dispatch(deletePost(post._id)) }}>
                     <DeleteIcon fontSize="small" />
                     Delete
                 </Button>
