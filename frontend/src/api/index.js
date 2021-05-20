@@ -9,3 +9,7 @@ export const getPost = async () => {
 export const createPost = async (newPost) => {
     return await axios.post(url,newPost);
 }
+
+export const updatePost = async (id, post) => {
+    return await axios.patch(`${url}/${id}`,post);
+}

@@ -7,6 +7,9 @@ const reducer = (state = [], action) => {
                 ...state,
                 action.payload
             ];
+        case "UPDATE":
+            const newPost = state.map(p => p._id !== action.payload._id? p : action.payload)
+            return newPost;
         default:
             return state;
     }

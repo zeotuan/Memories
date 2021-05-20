@@ -28,5 +28,19 @@ export const createPost = (newPost) => {
             console.log(error);
         }
         
-    }
+    };
+}
+
+export const updatePost = (id,post) => {
+    return async (dispatch) => {
+        try {
+            const {data: updatedPost} = await api.updatePost(id,post);
+            dispatch({
+                type:'UPDATE',
+                payload:updatedPost
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 }
