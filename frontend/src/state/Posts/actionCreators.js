@@ -1,4 +1,5 @@
 import * as api from "../../api";
+import * as action from "./action";
 
 export const getPost = () => { 
     return async (dispatch) => {
@@ -6,7 +7,7 @@ export const getPost = () => {
             const {data: posts} = await api.getPost();
             
             dispatch({
-                type:'FETCH_ALL',
+                type:action.FETCH_ALL,
                 payload:posts
             }); 
         } catch (error) {
@@ -21,7 +22,7 @@ export const createPost = (newPost) => {
         try {
             const {data: createdPost} = await api.createPost(newPost);  
             dispatch({
-                type:'CREATE',
+                type:action.CREATE,
                 payload:createdPost
             })  
         } catch (error) {
@@ -36,7 +37,7 @@ export const updatePost = (id,post) => {
         try {
             const {data: updatedPost} = await api.updatePost(id,post);
             dispatch({
-                type:'UPDATE',
+                type:action.UPDATE,
                 payload:updatedPost
             });
         } catch (error) {
@@ -50,7 +51,7 @@ export const deletePost = (id) => {
         try {
             await api.deletePost(id);
             dispatch({
-                type:'DELETE',
+                type:action.DELETE,
                 payload:id
             });
         } catch (error) {
@@ -64,7 +65,7 @@ export const likePost = (id) => {
         try{
             await api.likePost(id);
             dispatch({
-                type:'LIKE',
+                type:action.LIKE,
                 payload:id
             });
         }catch(error){

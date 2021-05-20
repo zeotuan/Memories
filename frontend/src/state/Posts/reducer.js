@@ -1,18 +1,20 @@
+import {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE} from './action';
+
 const reducer = (state = [], action) => {
     switch(action.type){
-        case "FETCH_ALL":
+        case FETCH_ALL:
             return action.payload;
-        case "CREATE":
+        case CREATE:
             return [
                 ...state,
                 action.payload
             ];
-        case "UPDATE":
+        case UPDATE:
             return state.map(p => p._id !== action.payload._id? p : action.payload);
 
-        case "DELETE":
+        case DELETE:
             return  state.filter(p => p._id !== action.payload);
-        case "LIKE":
+        case LIKE:
             return state.map(p => {
                 if(p._id !== action.payload){
                     return p;
