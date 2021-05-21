@@ -1,10 +1,10 @@
-import * as api from "../../api";
+import {postApi} from "../../api";
 import * as action from "./action";
 
 export const getPost = () => { 
     return async (dispatch) => {
         try {
-            const {data: posts} = await api.getPost();
+            const {data: posts} = await postApi.getPost();
             
             dispatch({
                 type:action.FETCH_ALL,
@@ -20,7 +20,7 @@ export const getPost = () => {
 export const createPost = (newPost) => {
     return async (dispatch) => {
         try {
-            const {data: createdPost} = await api.createPost(newPost);  
+            const {data: createdPost} = await postApi.createPost(newPost);  
             dispatch({
                 type:action.CREATE,
                 payload:createdPost
@@ -35,7 +35,7 @@ export const createPost = (newPost) => {
 export const updatePost = (id,post) => {
     return async (dispatch) => {
         try {
-            const {data: updatedPost} = await api.updatePost(id,post);
+            const {data: updatedPost} = await postApi.updatePost(id,post);
             dispatch({
                 type:action.UPDATE,
                 payload:updatedPost
@@ -49,7 +49,7 @@ export const updatePost = (id,post) => {
 export const deletePost = (id) => {
     return async (dispatch) => {
         try {
-            await api.deletePost(id);
+            await postApi.deletePost(id);
             dispatch({
                 type:action.DELETE,
                 payload:id
@@ -63,7 +63,7 @@ export const deletePost = (id) => {
 export const likePost = (id) => {
     return async (dispatch) => {
         try{
-            await api.likePost(id);
+            await postApi.likePost(id);
             dispatch({
                 type:action.LIKE,
                 payload:id
