@@ -63,10 +63,10 @@ export const deletePost = (id) => {
 export const likePost = (id) => {
     return async (dispatch) => {
         try{
-            await postApi.likePost(id);
+            const likedPost = await postApi.likePost(id);
             dispatch({
                 type:action.LIKE,
-                payload:id
+                payload:likedPost,
             });
         }catch(error){
             console.log(error);

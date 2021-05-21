@@ -9,8 +9,11 @@ if(process.env.NODE_ENV === 'dev'){
     MONGO_URI = process.env.TEST_MONGO_URI
 }
 const PORT = process.env.PORT || 3002;
-
+const JWT_SECRET = process.env.JWT_SECRET;
+const saltRound = parseInt(process.env.saltRound);
 export default {
     MONGO_URI,
-    PORT
+    PORT,
+    JWT_SECRET,
+    saltRound
 }

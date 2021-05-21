@@ -4,9 +4,9 @@ import postMessage from '../models/postMessage.js'
 export const getPosts = async (req,res) => {
     try {
         const postMessages = await postMessage.find({});
-        res.status(200).json(postMessages);
+        return res.status(200).json(postMessages);
     } catch (error) {
-        res.status(404).json({error:error.message});
+        return res.status(404).json({error:error.message});
     }
 };
 
@@ -16,9 +16,9 @@ export const createPost = async (req,res) => {
     try {
         const newPost = new postMessage(body);
         await newPost.save();
-        res.status(200).json(newPost);
+        return res.status(200).json(newPost);
     } catch (error) {
-        res.status(409).json({error:error.message});
+        return res.status(409).json({error:error.message});
     }
 }
 
@@ -53,13 +53,23 @@ export const deletePost = async (req,res) => {
 
 export const likePost = async (req,res) => {
     const id = req.params.id;
+    if(!req.userId){
+        return res.status(400).json({error:'unauthenticated'}); 
+    }
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(400).json({error:'invalid id'});
     }
     const body = req.body;
     try {
-        await postMessage.findByIdAndUpdate(id,{$inc: {likeCount:1}});
-        return res.status(200).json({message:"successfully like post"});
+        const post = postMessage.findById(id);
+        const index = post.likes.findIndex(id => id === toString(req.userId));
+        if(index === -1){
+            post.likes.push(req.userId);
+        }else{
+            post.likes = post.likes.filter(id=> id !== req.userId);
+        }
+        await post.save();
+        return res.status(200).json(post);
     } catch (error) {
         res.status(400).json({error:error});
     }

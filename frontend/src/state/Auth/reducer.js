@@ -1,4 +1,4 @@
-import {AUTH, LOGOUT} from './action';
+import {AUTH, LOGOUT, SIGNUP} from './action';
 
 const reducer = (state={authData: null},action) => {
     switch(action.type){
@@ -8,6 +8,8 @@ const reducer = (state={authData: null},action) => {
         case LOGOUT:
             localStorage.removeItem('profile');
             return {...state,authData:null};
+        case  SIGNUP:
+            return state
         default:
             return state
     }

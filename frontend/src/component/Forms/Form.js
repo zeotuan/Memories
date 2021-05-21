@@ -29,6 +29,13 @@ const Form = ({setCurId, curId}) => {
         }
         clear();
     };
+    const handleChange = (e) => {
+        if(e.target.name === "tags"){
+            setPostData({...postData, tags:e.target.value.split(',')});
+        }else{
+            setPostData({...postData, [e.target.name]:e.target.value});
+        }
+    }
     const clear = () => {
         setPostData({creator:"", title:"", message:"", tags:"", selectedFile:""})
         setCurId(null);
@@ -45,7 +52,7 @@ const Form = ({setCurId, curId}) => {
                     label="creator" 
                     fullWidth
                     value={postData.creator}
-                    onChange={(e)=>{setPostData({...postData, creator:e.target.value})}}
+                    onChange={handleChange}
                 
                 />
                 <TextField 
@@ -54,7 +61,7 @@ const Form = ({setCurId, curId}) => {
                     label="title" 
                     fullWidth
                     value={postData.title}
-                    onChange={(e)=>{setPostData({...postData, title:e.target.value})}}
+                    onChange={handleChange}
                 
                 />
                 <TextField 
@@ -63,7 +70,7 @@ const Form = ({setCurId, curId}) => {
                     label="message" 
                     fullWidth
                     value={postData.message}
-                    onChange={(e)=>{setPostData({...postData, message:e.target.value})}}
+                    onChange={handleChange}
                 
                 />
                 <TextField 
@@ -72,7 +79,7 @@ const Form = ({setCurId, curId}) => {
                     label="tags" 
                     fullWidth
                     value={postData.tags}
-                    onChange={(e)=>{setPostData({...postData, tags:e.target.value.split(',') })}}
+                    onChange={handleChange}
                 
                 />
                 <div className={classes.fileInput}> 

@@ -1,7 +1,12 @@
 import axios from 'axios';
+import {API} from './index';
 
-const url = 'http://localhost:3002/api/auth';
+const url = '/api/users';
 
-export const login = async () => {
-    return await axios.post(`${url}`);
+export const signIn = async (credential) => {
+    return await API.post(`${url}/signIn`,credential);
+}
+
+export const signUp = async (authFormData) => {
+    return await API.post(`${url}/signUp`,authFormData);
 }

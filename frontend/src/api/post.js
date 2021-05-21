@@ -1,23 +1,24 @@
 import axios from 'axios';
+import {API} from './index';
 
-const url = 'http://localhost:3002/api/posts';
+const url = '/api/posts';
 
 export const getPost = async () => {
-    return await axios.get(url);
+    return await API.get(url);
 }
 
 export const createPost = async (newPost) => {
-    return await axios.post(url,newPost);
+    return await API.post(url,newPost);
 }
 
 export const updatePost = async (id, post) => {
-    return await axios.patch(`${url}/${id}`,post);
+    return await API.patch(`${url}/${id}`,post);
 }
 
 export const deletePost = async (id, post) => {
-    return await axios.delete(`${url}/${id}`);
+    return await API.delete(`${url}/${id}`);
 }
 
 export const likePost = async (id) => {
-    return await axios.patch(`${url}/${id}/likePost`);
+    return await API.patch(`${url}/${id}/likePost`);
 }
