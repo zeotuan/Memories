@@ -30,6 +30,7 @@ const Auth = () => {
         }else{
             dispatch(SignIn({ email:authFormData.email, password:authFormData.password },history));
         }
+        setIsSignUp(false);
 
     };
     const handleChange = (e) => {

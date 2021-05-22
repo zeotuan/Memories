@@ -14,7 +14,6 @@ const NavBar = () => {
     useEffect(()=>{
         const token = user?.token;
         setUser(JSON.parse(localStorage.getItem('profile')));
-        console.log(token);
     },[location])
     const logOut = () => {
         dispatch({type:'LOGOUT'});

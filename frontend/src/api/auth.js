@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {API} from './index';
 
 const url = '/api/users';

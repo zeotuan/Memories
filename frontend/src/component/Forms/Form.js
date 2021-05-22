@@ -4,17 +4,19 @@ import FileBase from 'react-file-base64'
 import useStyles from './style';
 import {useDispatch, useSelector} from 'react-redux';
 import {createPost, updatePost} from '../../state/Posts/actionCreators';
+
 const Form = ({setCurId, curId}) => {
     const [postData, setPostData] = useState({
-        creator:"",
         title:"",
         message:"",
         tags:"",
-        selectedFile:""
+        selectedFile:"",
+        creatorName:""
     });
     const dispatch = useDispatch(); 
     const classes  = useStyles();
     const post = useSelector(state => curId? state.posts.find(p => p._id === curId): null);
+    const user = JSON.parse(localStorage.getItem('profile'));
     useEffect(()=>{
         if(post){
             setPostData({...post});
@@ -23,38 +25,38 @@ const Form = ({setCurId, curId}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if(curId){
-            dispatch(updatePost(curId,postData))
+            dispatch(updatePost(curId,{...postData}))
         }else{
-            dispatch(createPost(postData)); 
+            dispatch(createPost({...postData})); 
         }
         clear();
     };
     const handleChange = (e) => {
         if(e.target.name === "tags"){
-            setPostData({...postData, tags:e.target.value.split(',')});
+            setPostData({...postData, tags:e.target.value.split(','), creatorName: user?.result?.name });
         }else{
             setPostData({...postData, [e.target.name]:e.target.value});
         }
     }
     const clear = () => {
-        setPostData({creator:"", title:"", message:"", tags:"", selectedFile:""})
+        setPostData({title:"", message:"", tags:"", selectedFile:""})
         setCurId(null);
     }
 
+    if(!user?.result?.name){
+        return (
+            <Paper className={classes.paper}>
+                <Typography variant="h6" align="center">
+                    Sign In to create your own memories.
+                </Typography>
+            </Paper>
+        );
+    }
 
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant="h6">{curId? 'Updating' :'Creating'} Memories</Typography>
-                <TextField 
-                    name="creator" 
-                    variant="outlined" 
-                    label="creator" 
-                    fullWidth
-                    value={postData.creator}
-                    onChange={handleChange}
-                
-                />
                 <TextField 
                     name="title" 
                     variant="outlined" 

@@ -7,7 +7,7 @@ export const SignIn = (credential, history) => {
             const {data} = await authApi.signIn(credential);
             dispatch({
                 type:action.AUTH,
-                payload:data
+                payload:data 
             });
             history.push("/");
         } catch (error) {

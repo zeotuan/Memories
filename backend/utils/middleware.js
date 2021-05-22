@@ -1,8 +1,8 @@
-import config from './config';
+import config from './config.js';
 import jwt from 'jsonwebtoken';
 
 export const auth = async (req,res,next) => {
-    const authorization = request.get('Authorization');
+    const authorization = req.get('authorization');
     if(authorization && authorization.toLowerCase().startsWith('bearer ')){
         const token = authorization.substring(7);
         const isCustomToken = token.length < 500;

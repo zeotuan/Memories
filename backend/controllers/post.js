@@ -13,8 +13,12 @@ export const getPosts = async (req,res) => {
 
 export const createPost = async (req,res) => {
     const body = req.body;
+    console.log(body);
+    if(!req.userId){
+        return res.status(400).json({error:'unauthenticated'}); 
+    }
     try {
-        const newPost = new postMessage(body);
+        const newPost = new postMessage({...body, creator:req.userId, createdAt: new Date().toISOString()});
         await newPost.save();
         return res.status(200).json(newPost);
     } catch (error) {

@@ -4,13 +4,13 @@ import mongoose from 'mongoose';
 const postSchema = mongoose.Schema({
     title:String,
     message:String,
-    creator:String,
+    creatorName:String,
+    creator:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }, 
     tags:[String],
     selectedFile:String,
-    likeCount:{
-        type:Number,
-        default:0
-    },
     likes:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
