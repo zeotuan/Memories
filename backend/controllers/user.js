@@ -36,7 +36,7 @@ export const signIn = async (req, res) => {
             const userForToken = {
                 name:`${user.firstName} ${user.lastName}`,
                 email: user.email, 
-                id: user._id
+                _id: user._id
             }
             const token = jwt.sign(userForToken,config.JWT_SECRET,{expiresIn:"24h"});
             return res.status(200).json({result:userForToken, token});

@@ -15,7 +15,6 @@ const reducer = (state = [], action) => {
         case DELETE:
             return  state.filter(p => p._id !== action.payload);
         case LIKE:
-            console.log(action.payload);
             return state.map(p => p._id !== action.payload._id? p : action.payload); 
         default:
             return state;
