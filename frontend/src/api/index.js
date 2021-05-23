@@ -12,3 +12,9 @@ API.interceptors.request.use((req) => {
     }
     return req;
 });
+
+
+// API.interceptors.request.use(request => {
+//     console.log('Starting Request', JSON.stringify(request, null, 2))
+//     return request
+// })

@@ -18,7 +18,6 @@ const Likes = ({user, post}) => {
             <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
           );
       }
-  
       return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
 }
 
@@ -27,7 +26,7 @@ const Post = ({setCurId, post}) => {
     const dispatch = useDispatch();
     const user = JSON.parse(localStorage.getItem('profile'));
     return (
-        <Card className={classes.card}> 
+        <Card className={classes.card} raised elevation={6}> 
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title}/>
             <div className={classes.overlay}>
                 <Typography variant="h6">{post.creatorName}</Typography>

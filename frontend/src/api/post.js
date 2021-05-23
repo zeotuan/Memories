@@ -2,8 +2,12 @@ import {API} from './index';
 
 const url = '/api/posts';
 
-export const getPost = async () => {
-    return await API.get(url);
+export const getPost = async (page) => {
+    return await API.get(`${url}?page=${page}`);
+}
+
+export const getPostBySearch = async (searchQuery) => {
+    return await API.get(`${url}/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`)
 }
 
 export const createPost = async (newPost) => {

@@ -1,17 +1,39 @@
 import {postApi} from "../../api";
 import * as action from "./action";
 
-export const getPost = () => { 
+export const getPost = (page) => { 
     return async (dispatch) => {
         try {
-            const {data: posts} = await postApi.getPost();
-            
+            const {data: {posts,currentPage,numberOfPages}} = await postApi.getPost(page);
+            console.log({
+                posts,
+                currentPage,
+                numberOfPages
+            })
             dispatch({
                 type:action.FETCH_ALL,
-                payload:posts
+                payload:{
+                    posts,
+                    currentPage,
+                    numberOfPages
+                }
             }); 
         } catch (error) {
             console.log(error.message);   
+        }
+    }
+}
+
+export const getPostBySearch = (searchQuery) => {
+    return async (dispatch) => {
+        try {
+            const {data: posts} = await postApi.getPostBySearch(searchQuery);
+            dispatch({
+                type:action.FETCH_BY_SEARCH,
+                payload:posts
+            });
+        } catch (error) {
+            console.log(error);
         }
     }
 }
