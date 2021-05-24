@@ -5,7 +5,7 @@ export interface Post{
     creatorName:string;
     creator:string;
     tags:Array<string>;
-    selectedFile:string;
+    selectedFile:any;
     likes:Array<string>;
     createdAt:string;
 }

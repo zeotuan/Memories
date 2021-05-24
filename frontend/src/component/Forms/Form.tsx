@@ -6,7 +6,7 @@ import {createPost, updatePost} from '../../state/Posts/actionCreators';
 import {useHistory} from 'react-router-dom';
 import {Post} from '../../type';
 import GetUserFromStorage from '../../utils/userExtractor';
-
+import {RootState} from '../../state'
 
 export interface PostData{
     title:string,
@@ -31,12 +31,12 @@ const Form = ({setCurId, curId}:FormProps) => {
     });
     const dispatch = useDispatch(); 
     const classes  = useStyles();
-    const post = useSelector(state => curId? state.posts.posts.find(p => p._id === curId): null);
+    const post = useSelector((state:RootState) => curId? state.posts.posts.find(p => p._id === curId): null);
     const user = GetUserFromStorage();
     const history = useHistory();
     useEffect(()=>{
         if(post){
-            setPostData({...post});
+            setPostData({...post, tags:post.tags.join(',')});
         } 
     },[post]);
     
