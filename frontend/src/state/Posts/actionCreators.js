@@ -41,14 +41,14 @@ export const getPostBySearch = (searchQuery) => {
 export const createPost = (newPost,history) => {
     return async (dispatch) => {
         try {
-            history.push(`/posts/${id}`)
-            dispatch({type:action.START_LOADING})
-            const {data: createdPost} = await postApi.createPost(newPost);  
+            dispatch({type:action.START_LOADING});
+            const {data: createdPost} = await postApi.createPost(newPost); 
+            history.push(`/posts/${createdPost._id}`); 
             dispatch({
                 type:action.CREATE,
                 payload:createdPost
-            }) 
-            dispatch({type:action.STOP_LOADING}) 
+            });
+            dispatch({type:action.STOP_LOADING}); 
         } catch (error) {
             console.log(error);
         }
