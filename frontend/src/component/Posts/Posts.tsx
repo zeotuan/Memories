@@ -4,7 +4,11 @@ import useStyles from './style';
 import {useSelector} from 'react-redux';
 import {CircularProgress, Grid} from '@material-ui/core';
 
-const Posts = ({setCurId}) => {
+interface postsProps{
+    setCurId:any
+}
+
+const Posts = ({setCurId}:postsProps) => {
     const classes  = useStyles();
     const {posts,isLoading} = useSelector((state)=>state.posts);
     return (
@@ -18,7 +22,7 @@ const Posts = ({setCurId}) => {
                 ))}
             </Grid>
         )
-    )
-}
+    );
+};
 
 export default Posts;

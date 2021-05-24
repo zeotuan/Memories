@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import {Grid, Container, Grow, Paper, AppBar, TextField, Button} from '@material-ui/core';
 import {useHistory,useLocation} from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
-import Posts from '../Posts/Posts'
+import Posts from '../Posts/Posts';
 import Form from '../Forms/Form';
 import Pagination from  '../Pagination';
 import {getPost,getPostBySearch} from '../../state/Posts/actionCreators';
@@ -12,7 +12,7 @@ import useStyles from './style';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
-}
+};
 
 const Home = () => {
     const classes = useStyles();
@@ -34,25 +34,25 @@ const Home = () => {
       if(e.keyCode === 13){
         searchPost();
       }
-    }
+    };
 
     const handleAddTags = (tag) => {
-      setTags([...tags, tag])
-    }
+      setTags([...tags, tag]);
+    };
 
     const handleDeleteTag = (tagToDelete) => {
       setTags(tags.filter(tag => tag !== tagToDelete));
-    } 
+    }; 
 
     const searchPost = () => {
       if(search.trim() || tags){
         dispatch(getPostBySearch({search,tags:tags.join(',')}));
-        history.push(`/posts/search?searchQuery=${search||'none'}&tag=${tags.join(',')}`)
+        history.push(`/posts/search?searchQuery=${search||'none'}&tag=${tags.join(',')}`);
       }else{
         history.push('/');
       }
       
-    }
+    };
     return (
         <Grow in>
         <Container maxWidth="xl">
@@ -92,7 +92,7 @@ const Home = () => {
           </Grid>
         </Container>
       </Grow>
-    )
-}
+    );
+};
 
 export default Home;

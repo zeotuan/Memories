@@ -3,7 +3,7 @@ import {AppBar, Avatar, Toolbar, Typography, Button} from "@material-ui/core";
 import useStyles from "./style";
 import MemoriesN from "../../images/MemoriesN.png";
 import cameraLense from "../../images/cameraLense.png";
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {useHistory, useLocation} from 'react-router-dom';
 import decode from 'jwt-decode';
@@ -22,12 +22,12 @@ const NavBar = () => {
             }
         }
         setUser(JSON.parse(localStorage.getItem('profile')));
-    },[location])
+    },[location]);
     const logOut = () => {
         dispatch({type:'LOGOUT'});
         history.push('/auth');
         setUser(null);
-    }
+    };
 
     return  (
         <AppBar className={classes.appBar} position="static" color="inherit">
@@ -52,7 +52,7 @@ const NavBar = () => {
             </div>
         </AppBar>
 
-    )
-}
+    );
+};
 
 export default NavBar;

@@ -14,7 +14,7 @@ const Paginate = ({page}) => {
         if(page){
             dispatch(getPosts(page));
         }
-    },[page])
+    },[page]);
     return (
         <Pagination 
             classes={{ul:classes.ul}}
@@ -24,8 +24,8 @@ const Paginate = ({page}) => {
             color="primary"
             renderItem={(item)=>( <PaginationItem {...item} component={Link} to={`/posts?page=${item.page}`}/> )}
         />
-    )
-}
+    );
+};
 
 
 export default Paginate;

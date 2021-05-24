@@ -1,60 +1,77 @@
-import {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH, START_LOADING, STOP_LOADING, GET_POST} from './action';
+import Action from './action';
+import {Post} from '../../type';
 
-const reducer = (state = {posts:[], isLoading:false}, action) => {
+export interface postState{
+    posts:Array<Post>;
+    isLoading:boolean;
+    currentPage:Number|null;
+    numberOfPages:Number|null;
+    post:Post|null;
+}
+
+const initialState:postState = {
+    posts:[],
+    isLoading:false,
+    currentPage:null,
+    numberOfPages:null,
+    post:null
+}
+
+const reducer = (state = initialState, action:Action):postState => {
     switch(action.type){
-        case FETCH_ALL:
+        case 'FETCH_ALL':
             return {
                 ...state,
                 posts: action.payload.posts,
                 currentPage: action.payload.currentPage,
                 numberOfPages: action.payload.numberOfPages
             };
-        case GET_POST:
+        case 'GET_POST':
                 return {
                     ...state,
                     post:action.payload
-                }
-        case CREATE:
+                };
+        case 'CREATE':
             return {
                 ...state,
                 posts: [...state.posts, action.payload]
             };
-        case UPDATE:
+        case 'UPDATE':
             return {
                 ...state,
                 posts: state.posts.map(p => p._id !== action.payload._id? p : action.payload)
             };
 
-        case DELETE:
+        case 'DELETE':
             return  {
                 ...state,
                 posts: state.posts.filter(p => p._id !== action.payload)
-            }
-        case LIKE:
+            };
+        case 'LIKE':
             return {
                 ...state, 
                 posts: state.posts.map(p => p._id !== action.payload._id? p : action.payload)
-            } 
-        case FETCH_BY_SEARCH:
+            }; 
+        case 'FETCH_BY_SEARCH':
             return {
                 ...state,
-                posts: action.posts.payload
-            }
-        case START_LOADING:
+                posts: action.payload
+            };
+        case 'START_LOADING':
             return {
                 ...state,
                 isLoading:true
-            }
+            };
 
-        case STOP_LOADING:
+        case 'STOP_LOADING':
             return {
                 ...state,
                 isLoading:false
-            }
+            };
         default:
             return state;
     }
-}
+};
 
 export default reducer;
 

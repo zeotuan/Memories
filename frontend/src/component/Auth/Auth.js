@@ -19,7 +19,7 @@ const Auth = () => {
         email:"",
         password:"",
         confirmPassword:""
-    })
+    });
     const dispatch = useDispatch();
     const classes = useStyles();
     const history = useHistory();
@@ -38,18 +38,18 @@ const Auth = () => {
     };
     const handleShowPassword = () => {
         setShowPassword((prevState) => !prevState);
-    }
+    };
     const SwithMode = () => {
         setIsSignUp((prevState)=> !prevState);
         setShowPassword(false);
-    }
+    };
 
     const googleSuccess = async (res) => {
         const result = res?.profileObj;
         const token = res?.tokenId;
         console.log(res);
         try {
-            dispatch({type:'AUTH',payload:{result,token}})
+            dispatch({type:'AUTH',payload:{result,token}});
             history.push("/");
         } catch (error) {
             console.log(error);
@@ -96,7 +96,7 @@ const Auth = () => {
                             variant="contained"
                         > 
                             Sign In With Goggle
-                        </Button>)
+                        </Button>);
                     }}
                     onSuccess={googleSuccess}
                     onFailure={googleFailure}
@@ -112,7 +112,7 @@ const Auth = () => {
             </form>
             </Paper>
         </Container>
-    )
-}
+    );
+};
 
-export default Auth
+export default Auth;

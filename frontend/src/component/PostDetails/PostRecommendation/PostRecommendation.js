@@ -14,11 +14,11 @@ const PostRecommendation = ({post}) => {
 
     useEffect(() => {
         post && dispatch(getPostBySearch({search:'none', tags:post.tags.join(',')}));
-    }, [post])
+    }, [post]);
 
     const openPost = (id) => {
         history.push(`/posts/${id}`);
-    }
+    };
     // const recommendedPost = useSelector(
     //     state => state.posts.posts.filter( 
     //         post => post.tags.filter( 
@@ -41,15 +41,15 @@ const PostRecommendation = ({post}) => {
                                     <Typography gutterBottom variant="subtitle2">{message}</Typography>
                                     <Typography gutterBottom variant="subtitle1">Likes: {likes}</Typography>
                                     <img src={selectedFile} width="200px" />
-                                </div>    
+                                </div>;    
                             })}    
                         </div>
                     </Divider>
                 </div>
             )}
         </React.Fragment>
-    )
+    );
 };
 
 
-export default PostRecommendation
+export default PostRecommendation;

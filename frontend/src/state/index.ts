@@ -5,4 +5,4 @@ import auth from './Auth/reducer';
 export default combineReducers({
     posts,
     auth
-})
+});

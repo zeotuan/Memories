@@ -13,7 +13,7 @@ const PostDetails = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPostById(id));
-    },[])
+    },[]);
     if(!post){
         return null;
     }
@@ -37,7 +37,7 @@ const PostDetails = () => {
                 </div>
             </div>
         </Paper>
-    )
-}
+    );
+};
 
-export default PostDetails
+export default PostDetails;

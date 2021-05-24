@@ -1,18 +1,25 @@
 import React from 'react';
 import useStyles from './style';
-import {Card, CardActions, CardContent, CardMedia, Button, Typography,ButtonBase} from '@material-ui/core'
+import {Card, CardActions, CardContent, CardMedia, Button, Typography,ButtonBase} from '@material-ui/core';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined'
+import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import {useDispatch} from 'react-redux';
 import {deletePost, likePost} from '../../../state/Posts/actionCreators';
 import {useHistory} from 'react-router-dom';
+import {User, Post as IPost} from '../../../type';
+import getUserFromStorage from '../../../utils/userExtractor';
 
-const Likes = ({user, post}) => {
+interface likesProps{
+    user:User|null;
+    post:IPost;
+}
+
+const Likes = ({user, post}:likesProps) => {
     if (post.likes.length > 0) {
-        return post.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
+        return post.likes.find((like) => like === (user?.googleId || user?._id))
           ? (
             <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
           ) : (
@@ -20,13 +27,20 @@ const Likes = ({user, post}) => {
           );
       }
       return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
+};
+
+interface postProps{
+    post:IPost;
+    setCurId:any;
 }
 
-const Post = ({setCurId, post}) => {
+
+
+const Post = ({setCurId, post}:postProps) => {
     const classes  = useStyles(); 
     const dispatch = useDispatch();
     const history = useHistory();
-    const user = JSON.parse(localStorage.getItem('profile'));
+    const user = getUserFromStorage();
     const openPost = () => {
         history.push(`/posts/${post._id}`);
     };
@@ -39,9 +53,9 @@ const Post = ({setCurId, post}) => {
                     <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
                 </div>
                 {
-                    (user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && 
+                    (user?.googleId === post?.creator || user?._id === post?.creator) && 
                     <div className={classes.overlay2}>
-                        <Button style={{color:'white'}} size="small" onClick={()=> {setCurId(post._id)}}>
+                        <Button style={{color:'white'}} size="small" onClick={()=> {setCurId(post._id);}}>
                             <MoreHorizIcon fontSize="default" />
                         </Button>
                     </div>
@@ -55,12 +69,12 @@ const Post = ({setCurId, post}) => {
                 </CardContent>
             </ButtonBase>
             <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={()=>{dispatch(likePost(post._id))}}>
+                <Button size="small" color="primary" onClick={()=>{dispatch(likePost(post._id));}}>
                     <Likes user={user} post={post}/>
                 </Button>
                 {
-                    (user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && 
-                    <Button size="small" color="primary" onClick={()=>{window.confirm("do you want to delete this post") && dispatch(deletePost(post._id)) }}>
+                    (user?.googleId === post?.creator || user?._id === post?.creator) && 
+                    <Button size="small" color="primary" onClick={()=>{window.confirm("do you want to delete this post") && dispatch(deletePost(post._id)); }}>
                         <DeleteIcon fontSize="small" />
                         Delete
                     </Button>
@@ -69,7 +83,7 @@ const Post = ({setCurId, post}) => {
             </CardActions>
            
         </Card>
-    )
+    );
 };
 
 export default Post;

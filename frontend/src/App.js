@@ -4,7 +4,7 @@ import {Container} from '@material-ui/core';
 import NavBar from './component/NavBar/NavBar';
 import Home from './component/Home/Home';
 import Auth from './component/Auth/Auth';
-import PostDetails from './component/PostDetails/PostDetails'
+import PostDetails from './component/PostDetails/PostDetails';
 import './index.css';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 
@@ -20,12 +20,12 @@ const App = () => {
           <Route exact path="/posts" component={Home} />
           <Route exact path="/posts/search" component={Home} />
           <Route exact path="/posts/:id" component={PostDetails} />
-          <Route exact path="/auth" component={() => {return user? <Redirect to="/posts" /> : <Auth /> }} />
+          <Route exact path="/auth" component={() => {return user? <Redirect to="/posts" /> : <Auth />; }} />
 
         </Switch>
       </Container>
     </Router>
-  )
-}
+  );
+};
 
 export default App;

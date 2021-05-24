@@ -1,112 +1,116 @@
+import React from "react";
 import {postApi} from "../../api";
-import * as action from "./action";
+import Action from "./action";
+import {Post,SearchQuery} from '../../type'
+import {PostData} from '../../component/Forms/Form';
+export type PostDispatch = React.Dispatch<Action>;
 
-export const getPosts = (page) => { 
-    return async (dispatch) => {
+export const getPosts = (page:Number|null) => { 
+    return async (dispatch:PostDispatch) => {
         try {
-            dispatch({type:action.START_LOADING})
+            dispatch({type:"START_LOADING"});
             const {data: {posts,currentPage,numberOfPages}} = await postApi.getPosts(page);
             dispatch({
-                type:action.FETCH_ALL,
+                type:"FETCH_ALL",
                 payload:{
                     posts,
                     currentPage,
                     numberOfPages
                 }
             }); 
-            dispatch({type:action.STOP_LOADING})
+            dispatch({type:"STOP_LOADING"});
         } catch (error) {
             console.log(error.message);   
         }
-    }
-}
+    };
+};
 
-export const getPostBySearch = (searchQuery) => {
-    return async (dispatch) => {
+export const getPostBySearch = (searchQuery:SearchQuery) => {
+    return async (dispatch:PostDispatch) => {
         try {
-            dispatch({type:action.START_LOADING})
+            dispatch({type:'START_LOADING'});
             const {data: posts} = await postApi.getPostBySearch(searchQuery);
             dispatch({
-                type:action.FETCH_BY_SEARCH,
+                type:'FETCH_BY_SEARCH',
                 payload:posts
             });
-            dispatch({type:action.STOP_LOADING})
+            dispatch({type:'STOP_LOADING'});
         } catch (error) {
             console.log(error);
         }
-    }
-}
+    };
+};
 
 
-export const createPost = (newPost,history) => {
-    return async (dispatch) => {
+export const createPost = (newPost:PostData,history:any) => {
+    return async (dispatch:PostDispatch) => {
         try {
-            dispatch({type:action.START_LOADING});
+            dispatch({type:'START_LOADING'});
             const {data: createdPost} = await postApi.createPost(newPost); 
             history.push(`/posts/${createdPost._id}`); 
             dispatch({
-                type:action.CREATE,
+                type:'CREATE',
                 payload:createdPost
             });
-            dispatch({type:action.STOP_LOADING}); 
+            dispatch({type:'STOP_LOADING'}); 
         } catch (error) {
             console.log(error);
         }
         
     };
-}
+};
 
-export const updatePost = (id,post) => {
-    return async (dispatch) => {
+export const updatePost = (id:Post['_id'],post:PostData) => {
+    return async (dispatch:PostDispatch) => {
         try {
             const {data: updatedPost} = await postApi.updatePost(id,post);
             dispatch({
-                type:action.UPDATE,
+                type:'UPDATE',
                 payload:updatedPost
             });
         } catch (error) {
             console.log(error);
         }
     };
-}
+};
 
-export const deletePost = (id) => {
-    return async (dispatch) => {
+export const deletePost = (id:Post['_id']) => {
+    return async (dispatch:PostDispatch) => {
         try {
             await postApi.deletePost(id);
             dispatch({
-                type:action.DELETE,
+                type:'DELETE',
                 payload:id
             });
         } catch (error) {
             console.log(error);
         }
     };
-} 
+}; 
 
-export const likePost = (id) => {
-    return async (dispatch) => {
+export const likePost = (id:Post['_id']) => {
+    return async (dispatch:PostDispatch) => {
         try{
             const {data:likedPost} = await postApi.likePost(id);
             dispatch({
-                type:action.LIKE,
+                type:'LIKE',
                 payload:likedPost,
             });
         }catch(error){
             console.log(error);
         }
-    }
-}
+    };
+};
 
-export const getPostById = (id) => {
-    return async (dispath) => {
+export const getPostById = (id:Post['_id']) => {
+    return async (dispath:PostDispatch) => {
         try{
-            dispath({type:action.START_LOADING});
+            dispath({type:'START_LOADING'});
             const {data:post} = await postApi.getPostById(id);
-            dispath({type:action.GET_POST, payload:post});
-            dispath({type:action.STOP_LOADING});
+            dispath({type:'GET_POST', payload:post});
+            dispath({type:'STOP_LOADING'});
         }catch(error){
             console.log(error);
         }
-    }
-}
+    };
+};
