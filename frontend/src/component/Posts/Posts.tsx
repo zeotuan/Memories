@@ -1,16 +1,16 @@
 import React from  'react';
 import Post from './Post/Post';
 import useStyles from './style';
-import {useSelector} from 'react-redux';
+import {RootStateOrAny, useSelector} from 'react-redux';
 import {CircularProgress, Grid} from '@material-ui/core';
-
+import {RootState} from '../../state';
 interface postsProps{
     setCurId:any
 }
 
 const Posts = ({setCurId}:postsProps) => {
     const classes  = useStyles();
-    const {posts,isLoading} = useSelector((state)=>state.posts);
+    const {posts,isLoading} = useSelector((state:RootState)=>state.posts);
     return (
         isLoading ? <CircularProgress /> 
         :(
