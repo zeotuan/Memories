@@ -1,4 +1,4 @@
-import {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH, START_LOADING, STOP_LOADING} from './action';
+import {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH, START_LOADING, STOP_LOADING, GET_POST} from './action';
 
 const reducer = (state = {posts:[], isLoading:false}, action) => {
     switch(action.type){
@@ -9,6 +9,11 @@ const reducer = (state = {posts:[], isLoading:false}, action) => {
                 currentPage: action.payload.currentPage,
                 numberOfPages: action.payload.numberOfPages
             };
+        case GET_POST:
+                return {
+                    ...state,
+                    post:action.payload
+                }
         case CREATE:
             return {
                 ...state,

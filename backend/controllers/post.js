@@ -21,6 +21,8 @@ export const getPosts = async (req,res) => {
     }
 };
 
+
+
 export const getPostsBySearch = async (req, res) => {
     const {searchQuery, tags} = req.query;
     try{
@@ -35,7 +37,6 @@ export const getPostsBySearch = async (req, res) => {
 
 export const createPost = async (req,res) => {
     const body = req.body;
-    console.log(body);
     if(!req.userId){
         return res.status(400).json({error:'unauthenticated'}); 
     }
@@ -44,7 +45,20 @@ export const createPost = async (req,res) => {
         await newPost.save();
         return res.status(200).json(newPost);
     } catch (error) {
-        return res.status(409).json({error:error.message});
+        return res.status(409).json({error});
+    }
+}
+
+export const getPost = async (req,res) => {
+    const id = req.params.id;
+    try{
+        const post = await postMessage.findById(id);
+        if(post){
+            return res.status(200).json(post);
+        }
+        return res.status(404).json({error:'cannot find post with this id'});
+    }catch(error){
+        return res.status(400).jsons({error})
     }
 }
 
@@ -80,9 +94,9 @@ export const deletePost = async (req,res) => {
     const body = req.body;
     try {
         await postMessage.findByIdAndDelete(id);
-        res.json({message:'post delete successfully'})
+        return res.json({message:'post delete successfully'})
     } catch (error) {
-        res.status(400).json({error:error});
+        return res.status(400).json({error});
     }
 }
 
@@ -106,6 +120,6 @@ export const likePost = async (req,res) => {
         await post.save();
         return res.status(200).json(post);
     } catch (error) {
-        res.status(400).json({error:error});
+        return res.status(400).json({error:error});
     }
 }

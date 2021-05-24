@@ -1,11 +1,11 @@
 import {postApi} from "../../api";
 import * as action from "./action";
 
-export const getPost = (page) => { 
+export const getPosts = (page) => { 
     return async (dispatch) => {
         try {
             dispatch({type:action.START_LOADING})
-            const {data: {posts,currentPage,numberOfPages}} = await postApi.getPost(page);
+            const {data: {posts,currentPage,numberOfPages}} = await postApi.getPosts(page);
             dispatch({
                 type:action.FETCH_ALL,
                 payload:{
@@ -38,9 +38,10 @@ export const getPostBySearch = (searchQuery) => {
 }
 
 
-export const createPost = (newPost) => {
+export const createPost = (newPost,history) => {
     return async (dispatch) => {
         try {
+            history.push(`/posts/${id}`)
             dispatch({type:action.START_LOADING})
             const {data: createdPost} = await postApi.createPost(newPost);  
             dispatch({
@@ -91,6 +92,19 @@ export const likePost = (id) => {
                 type:action.LIKE,
                 payload:likedPost,
             });
+        }catch(error){
+            console.log(error);
+        }
+    }
+}
+
+export const getPostById = (id) => {
+    return async (dispath) => {
+        try{
+            dispath({type:action.START_LOADING});
+            const {data:post} = await postApi.getPostById(id);
+            dispath({type:action.GET_POST, payload:post});
+            dispath({type:action.STOP_LOADING});
         }catch(error){
             console.log(error);
         }
