@@ -54,7 +54,7 @@ const Form = ({setCurId, curId}) => {
     }
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={6}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant="h6">{curId? 'Updating' :'Creating'} Memories</Typography>
                 <TextField 

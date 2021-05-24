@@ -4,12 +4,8 @@ import * as action from "./action";
 export const getPost = (page) => { 
     return async (dispatch) => {
         try {
+            dispatch({type:action.START_LOADING})
             const {data: {posts,currentPage,numberOfPages}} = await postApi.getPost(page);
-            console.log({
-                posts,
-                currentPage,
-                numberOfPages
-            })
             dispatch({
                 type:action.FETCH_ALL,
                 payload:{
@@ -18,6 +14,7 @@ export const getPost = (page) => {
                     numberOfPages
                 }
             }); 
+            dispatch({type:action.STOP_LOADING})
         } catch (error) {
             console.log(error.message);   
         }
@@ -27,11 +24,13 @@ export const getPost = (page) => {
 export const getPostBySearch = (searchQuery) => {
     return async (dispatch) => {
         try {
+            dispatch({type:action.START_LOADING})
             const {data: posts} = await postApi.getPostBySearch(searchQuery);
             dispatch({
                 type:action.FETCH_BY_SEARCH,
                 payload:posts
             });
+            dispatch({type:action.STOP_LOADING})
         } catch (error) {
             console.log(error);
         }
@@ -42,11 +41,13 @@ export const getPostBySearch = (searchQuery) => {
 export const createPost = (newPost) => {
     return async (dispatch) => {
         try {
+            dispatch({type:action.START_LOADING})
             const {data: createdPost} = await postApi.createPost(newPost);  
             dispatch({
                 type:action.CREATE,
                 payload:createdPost
-            })  
+            }) 
+            dispatch({type:action.STOP_LOADING}) 
         } catch (error) {
             console.log(error);
         }

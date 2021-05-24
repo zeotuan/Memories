@@ -82,9 +82,12 @@ const Home = () => {
                 <Button onClick={searchPost} className={classes.searchButton} variant="contained" color="primary">Search Post</Button>
               </AppBar>
               <Form curId={curId} setCurId={setCurId}/>
-              <Paper elevation={6} >
-                <Pagination page={page}/>
-              </Paper>
+              
+              {(!searchQuery && !tags.length) &&  // right now pagination is simple and only work on default ordering 
+                <Paper elevation={6} className={classes.pagination}>
+                  <Pagination page={page}/>
+                </Paper>
+              }
             </Grid>
           </Grid>
         </Container>

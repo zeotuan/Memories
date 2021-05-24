@@ -1,6 +1,6 @@
-import {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH} from './action';
+import {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH, START_LOADING, STOP_LOADING} from './action';
 
-const reducer = (state = {}, action) => {
+const reducer = (state = {posts:[], isLoading:false}, action) => {
     switch(action.type){
         case FETCH_ALL:
             return {
@@ -34,6 +34,17 @@ const reducer = (state = {}, action) => {
             return {
                 ...state,
                 posts: action.posts.payload
+            }
+        case START_LOADING:
+            return {
+                ...state,
+                isLoading:true
+            }
+
+        case STOP_LOADING:
+            return {
+                ...state,
+                isLoading:false
             }
         default:
             return state;
