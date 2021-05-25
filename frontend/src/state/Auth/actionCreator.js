@@ -10,8 +10,8 @@ export const SignIn = (credential, history) => {
                 type:action.AUTH,
                 payload:data 
             });
-            dispatch(SET_NOTIFICATION("success","Success","Login Successfully"));
             history.push("/");
+            dispatch(SET_NOTIFICATION("success","Success","Login Successfully"));
         } catch (error){
             dispatch(SET_NOTIFICATION("error","Login Fail","invalid Username or Password"));
             console.log(error);
@@ -29,8 +29,10 @@ export const SignUp = (authFormData, history) => {
                 payload:signedUpUser
             })
             history.push("/auth")
+            dispatch(SET_NOTIFICATION("success","Success","Signing Up Successfully"));
         } catch (error) {
             console.log(error)
+            dispatch(SET_NOTIFICATION("error","Fail","Fail to Sign Up"));
         }
     }
 }

@@ -1,5 +1,6 @@
 import {postApi} from "../../api";
 import * as action from "./action";
+import {SET_ERROR_NOTIFICATION,SET_SUCCESS_NOTIFICATION} from "../Notification/actionCreator";
 
 export const getPosts = (page) => { 
     return async (dispatch) => {
@@ -16,7 +17,7 @@ export const getPosts = (page) => {
             }); 
             dispatch({type:action.STOP_LOADING})
         } catch (error) {
-            console.log(error.message);   
+            SET_ERROR_NOTIFICATION("Error","Failed to load posts! Please check internet connection!"); 
         }
     }
 }
@@ -33,6 +34,7 @@ export const getPostBySearch = (searchQuery) => {
             dispatch({type:action.STOP_LOADING})
         } catch (error) {
             console.log(error);
+            SET_ERROR_NOTIFICATION("Error","Failed to search posts! Please check internet connection!"); 
         }
     }
 }
@@ -51,6 +53,7 @@ export const createPost = (newPost,history) => {
             dispatch({type:action.STOP_LOADING}); 
         } catch (error) {
             console.log(error);
+            SET_ERROR_NOTIFICATION("Error","Failed to create posts!"); 
         }
         
     };
@@ -66,6 +69,7 @@ export const updatePost = (id,post) => {
             });
         } catch (error) {
             console.log(error);
+            SET_ERROR_NOTIFICATION("Error","Failed to update Post!"); 
         }
     };
 }
@@ -79,7 +83,7 @@ export const deletePost = (id) => {
                 payload:id
             });
         } catch (error) {
-            console.log(error);
+            SET_ERROR_NOTIFICATION("Error","Failed to delete post! Please check internet connection"); 
         }
     };
 } 
@@ -93,7 +97,7 @@ export const likePost = (id) => {
                 payload:likedPost,
             });
         }catch(error){
-            console.log(error);
+            SET_ERROR_NOTIFICATION("Error","Failed to like Post"); 
         }
     }
 }
@@ -106,7 +110,7 @@ export const getPostById = (id) => {
             dispath({type:action.GET_POST, payload:post});
             dispath({type:action.STOP_LOADING});
         }catch(error){
-            console.log(error);
+            SET_ERROR_NOTIFICATION("Error","Failed to load post"); 
         }
     }
 }
