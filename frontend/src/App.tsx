@@ -7,10 +7,11 @@ import Auth from './component/Auth/Auth';
 import PostDetails from './component/PostDetails/PostDetails';
 import './index.css';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
-
+import getUserFromStorage from './utils/userExtractor';
 const App = () => {
   //const classes  = useStyles();
-  const user = JSON.parse(localStorage.getItem('profile'));
+  const user = getUserFromStorage();
+  
   return (
     <Router>
       <Container maxWidth="xl" >
