@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect } from "react";
 import {AppBar, Avatar, Toolbar, Typography, Button} from "@material-ui/core";
 import useStyles from "./style";
 import MemoriesN from "../../images/MemoriesN.png";
 import cameraLense from "../../images/cameraLense.png";
 import {Link} from 'react-router-dom'
 import {useDispatch} from 'react-redux';
-import {useHistory, useLocation} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import decode from 'jwt-decode';
+
 const NavBar = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
-    const location = useLocation();
-    const [user,setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    const user = JSON.parse(localStorage.getItem('profile'));
     useEffect(()=>{
         const token = user?.token;
         if(token){
@@ -21,12 +21,10 @@ const NavBar = () => {
                 logOut();
             }
         }
-        setUser(JSON.parse(localStorage.getItem('profile')));
-    },[location])
+    },[user])
     const logOut = () => {
         dispatch({type:'LOGOUT'});
         history.push('/auth');
-        setUser(null);
     }
 
     return  (
