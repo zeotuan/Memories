@@ -5,13 +5,14 @@ import MemoriesN from "../../images/MemoriesN.png";
 import cameraLense from "../../images/cameraLense.png";
 import {Link} from 'react-router-dom'
 import {useDispatch} from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-dom';
 import decode from 'jwt-decode';
 
 const NavBar = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation()
     const user = JSON.parse(localStorage.getItem('profile'));
     useEffect(()=>{
         const token = user?.token;
@@ -21,7 +22,7 @@ const NavBar = () => {
                 logOut();
             }
         }
-    },[user])
+    },[location])
     const logOut = () => {
         dispatch({type:'LOGOUT'});
         history.push('/auth');
