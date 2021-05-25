@@ -5,7 +5,7 @@ const reducer = (state={authData: null},action:Action) => {
         case "AUTH":
             localStorage.setItem('profile', JSON.stringify({...action.payload}));
             return {...state, authData:action.payload};
-        case "AUTH":
+        case "LOGOUT":
             localStorage.removeItem('profile');
             return {...state,authData:null};
         case  "SIGNUP":
