@@ -54,6 +54,7 @@ const Home = () => {
       
     }
     return (
+
         <Grow in>
         <Container maxWidth="xl">
           <Grid container justify="space-between" alignItems="stretch" spacing={3} className={classes.GridContainer}>

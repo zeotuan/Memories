@@ -1,4 +1,5 @@
 import * as action from './action';
+import {SET_NOTIFICATION} from '../Notification/actionCreator';
 import {authApi} from '../../api';
 
 export const SignIn = (credential, history) => {
@@ -9,8 +10,10 @@ export const SignIn = (credential, history) => {
                 type:action.AUTH,
                 payload:data 
             });
+            dispatch(SET_NOTIFICATION("success","Success","Login Successfully"));
             history.push("/");
-        } catch (error) {
+        } catch (error){
+            dispatch(SET_NOTIFICATION("error","Login Fail","invalid Username or Password"));
             console.log(error);
         }
         
