@@ -4,8 +4,8 @@ import {Post} from '../../type';
 export interface postState{
     posts:Array<Post>;
     isLoading:boolean;
-    currentPage:Number|null;
-    numberOfPages:Number|null;
+    currentPage:number|null;
+    numberOfPages:number|null;
     post:Post|null;
 }
 

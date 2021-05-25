@@ -5,11 +5,11 @@ import moment from 'moment';
 import {useParams} from 'react-router-dom';
 import useStyles from './styles';
 import {getPostById} from '../../state/Posts/actionCreators';
-
+import {RootState} from '../../state';
 const PostDetails = () => {
     const classes = useStyles();
-    const {id} = useParams();
-    const {post,isLoading} = useSelector((state) => state.posts);
+    const {id} = useParams<{id:string}>();
+    const {post,isLoading} = useSelector((state:RootState) => state.posts);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getPostById(id));
@@ -29,7 +29,7 @@ const PostDetails = () => {
                     <Typography variant="h3" component="h2">{post.title}</Typography>
                     <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
                     <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
-                    <Typography variant="h6">Created by: {post.className}</Typography>
+                    <Typography variant="h6">Created by: {post.creatorName}</Typography>
                     <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
                 </div>
                 <div className={classes.imageSection}>

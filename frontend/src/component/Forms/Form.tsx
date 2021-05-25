@@ -18,7 +18,7 @@ export interface PostData{
 
 interface FormProps{
     setCurId:any;
-    curId:Post['_id'];
+    curId:Post['_id']|null;
 }
 
 const Form = ({setCurId, curId}:FormProps) => {
@@ -32,7 +32,7 @@ const Form = ({setCurId, curId}:FormProps) => {
     const dispatch = useDispatch(); 
     const classes  = useStyles();
     const post = useSelector((state:RootState) => curId? state.posts.posts.find(p => p._id === curId): null);
-    const user = GetUserFromStorage();
+    const authItem = GetUserFromStorage();
     const history = useHistory();
     useEffect(()=>{
         if(post){
@@ -40,7 +40,7 @@ const Form = ({setCurId, curId}:FormProps) => {
         } 
     },[post]);
     
-    if(!user){
+    if(!authItem?.user){
         return (
             
             <Paper className={classes.paper} elevation={6}>
@@ -65,7 +65,7 @@ const Form = ({setCurId, curId}:FormProps) => {
             dispatch(updatePost(curId,{...postData}));
              
         }else{
-            dispatch(createPost({...postData,creatorName: user.name},history) ); 
+            dispatch(createPost({...postData,creatorName: authItem.user.name},history) ); 
         }
         clear();
     };

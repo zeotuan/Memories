@@ -5,8 +5,8 @@ type Action =
       type: "FETCH_ALL";
       payload: {
           posts:Array<Post>,
-          currentPage:Number,
-          numberOfPages:Number
+          currentPage:number,
+          numberOfPages:number
       };
     }
   | {

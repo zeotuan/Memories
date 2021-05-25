@@ -6,7 +6,7 @@ import ChipInput from 'material-ui-chip-input';
 import Posts from '../Posts/Posts';
 import Form from '../Forms/Form';
 import Pagination from  '../Pagination';
-import {getPost,getPostBySearch} from '../../state/Posts/actionCreators';
+import {getPostBySearch} from '../../state/Posts/actionCreators';
 import useStyles from './style';
 
 
@@ -23,24 +23,19 @@ const Home = () => {
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
     const [search,setSearch] = useState('');
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState<Array<string>>([]);
 
-    // useEffect(()=>{
-    //     dispatch(getPost());
-    //   },[dispatch])
-
-
-    const handleKeyPress = (e) => {
-      if(e.keyCode === 13){
+    const handleKeyPress = (e:React.KeyboardEvent<HTMLDivElement>) => {
+      if(e.key === "Enter"){
         searchPost();
       }
     };
 
-    const handleAddTags = (tag) => {
+    const handleAddTags = (tag:string) => {
       setTags([...tags, tag]);
     };
 
-    const handleDeleteTag = (tagToDelete) => {
+    const handleDeleteTag = (tagToDelete:string) => {
       setTags(tags.filter(tag => tag !== tagToDelete));
     }; 
 
@@ -56,7 +51,7 @@ const Home = () => {
     return (
         <Grow in>
         <Container maxWidth="xl">
-          <Grid container justify="space-between" alignItems="stretch" spacing={3} className={classes.GridContainer}>
+          <Grid container justify="space-between" alignItems="stretch" spacing={3} className={classes.gridContainer}>
             <Grid item xs={12} sm={6} md={9}>
               <Posts setCurId={setCurId}/>
             </Grid>
@@ -69,7 +64,7 @@ const Home = () => {
                   fullWidth
                   value={search}
                   onChange={(e)=>{setSearch(e.target.value);}}
-                  onKeyPress={handleKeyPress}
+                  onKeyPress={(e) => handleKeyPress(e)}
                 />
                 <ChipInput 
                   style={{margin:'10px 0'}}
@@ -79,13 +74,13 @@ const Home = () => {
                   label="Search Tags"
                   variant="outlined"    
                 />
-                <Button onClick={searchPost} className={classes.searchButton} variant="contained" color="primary">Search Post</Button>
+                <Button onClick={searchPost} variant="contained" color="primary">Search Post</Button>
               </AppBar>
               <Form curId={curId} setCurId={setCurId}/>
               
               {(!searchQuery && !tags.length) &&  // right now pagination is simple and only work on default ordering 
                 <Paper elevation={6} className={classes.pagination}>
-                  <Pagination page={page}/>
+                  <Pagination page={Number(page)}/>
                 </Paper>
               }
             </Grid>

@@ -23,7 +23,7 @@ const Auth = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const history = useHistory();
-    const handleSubmit = (e) => {
+    const handleSubmit = (e:any) => {
         e.preventDefault();
         if(isSignUp){
             dispatch(SignUp(authFormData,history));
@@ -33,7 +33,7 @@ const Auth = () => {
         setIsSignUp(false);
 
     };
-    const handleChange = (e) => {
+    const handleChange = (e:any) => {
         setAuthFormData({...authFormData, [e.target.name]:e.target.value});
     };
     const handleShowPassword = () => {
@@ -44,10 +44,9 @@ const Auth = () => {
         setShowPassword(false);
     };
 
-    const googleSuccess = async (res) => {
+    const googleSuccess = async (res:any) => {
         const result = res?.profileObj;
         const token = res?.tokenId;
-        console.log(res);
         try {
             dispatch({type:'AUTH',payload:{result,token}});
             history.push("/");
@@ -88,12 +87,12 @@ const Auth = () => {
                         return (
                         <Button 
                             className={classes.googleButton} 
-                            color="primary" 
-                            fullWidth 
-                            onClick={renderProps.onClick} 
-                            disable={renderProps.disable} 
+                            color="primary"
+                            fullWidth
                             startIcon={<Icon />}
                             variant="contained"
+                            onClick={renderProps.onClick}
+                            disabled={renderProps.disabled} 
                         > 
                             Sign In With Goggle
                         </Button>);
