@@ -18,6 +18,7 @@ interface BaseUser{
 
 
 export interface GoogleUser extends BaseUser{
+    type:"google";
     imageUrl:string;
     googleId:string;
 

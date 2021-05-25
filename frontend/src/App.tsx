@@ -10,8 +10,6 @@ import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom
 import getUserFromStorage from './utils/userExtractor';
 const App = () => {
   //const classes  = useStyles();
-  const user = getUserFromStorage();
-  
   return (
     <Router>
       <Container maxWidth="xl" >
@@ -21,7 +19,7 @@ const App = () => {
           <Route exact path="/posts" component={Home} />
           <Route exact path="/posts/search" component={Home} />
           <Route exact path="/posts/:id" component={PostDetails} />
-          <Route exact path="/auth" component={() => {return user? <Redirect to="/posts" /> : <Auth />; }} />
+          <Route exact path="/auth" component={() => { return getUserFromStorage()? <Redirect to="posts" />: <Auth /> } } />
 
         </Switch>
       </Container>
