@@ -1,6 +1,6 @@
 import React from 'react';
-import {useDispath, useSelector} from 'react-redux';
-import {useHisory, useHistory} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 import useStyles from './styles';
 import {getPostBySearch} from '../../state/Posts/actionCreators';
 import { Divider, Typography } from '@material-ui/core';
@@ -8,7 +8,7 @@ import { Divider, Typography } from '@material-ui/core';
 
 const PostRecommendation = ({post}) => {
     const classes = useStyles();
-    const dispatch = useDispath();
+    const dispatch = useDispatch();
     const history = useHistory();
     const {posts} = useSelector(state => state.posts);
 
