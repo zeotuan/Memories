@@ -13,7 +13,7 @@ import {User, Post as IPost} from '../../../type';
 import getUserFromStorage from '../../../utils/userExtractor';
 
 interface likesProps{
-    user:User|null;
+    user:User|undefined;
     post:IPost;
 }
 
@@ -40,7 +40,8 @@ const Post = ({setCurId, post}:postProps) => {
     const classes  = useStyles(); 
     const dispatch = useDispatch();
     const history = useHistory();
-    const user = getUserFromStorage();
+    const authItem = getUserFromStorage();
+    const user = authItem?.user;
     const openPost = () => {
         history.push(`/posts/${post._id}`);
     };

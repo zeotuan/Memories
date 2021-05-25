@@ -5,7 +5,7 @@ export interface AuthenticationItem{
     token:string;
 }
 
-const getUserFromStorage = ():AuthenticationItem|null => {
+const getUserFromStorage = ():AuthenticationItem|undefined => {
     const profile = localStorage.getItem('profile');
     if(profile){
         const userResult = JSON.parse(profile);
@@ -16,6 +16,6 @@ const getUserFromStorage = ():AuthenticationItem|null => {
             }
         }
     }
-    return null;
+    return undefined;
 }
 export default getUserFromStorage;
