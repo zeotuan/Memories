@@ -42,7 +42,7 @@ export const getPostBySearch = (searchQuery:SearchQuery) => {
 };
 
 
-export const createPost = (newPost:PostData,history:any) => {
+export const createPost = (newPost:FormData,history:any) => {
     return async (dispatch:PostDispatch) => {
         try {
             dispatch({type:'START_LOADING'});
@@ -60,7 +60,7 @@ export const createPost = (newPost:PostData,history:any) => {
     };
 };
 
-export const updatePost = (id:Post['_id'],post:PostData) => {
+export const updatePost = (id:Post['_id'],post:FormData) => {
     return async (dispatch:PostDispatch) => {
         try {
             const {data: updatedPost} = await postApi.updatePost(id,post);

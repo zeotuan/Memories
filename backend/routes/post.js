@@ -1,7 +1,6 @@
 import express from 'express';
-import {getPosts,getPostsBySearch,createPost,updatePost,deletePost, likePost, getPost} from '../controllers/post.js';
-import {auth} from '../utils/middleware.js';
-
+import {getPosts,getPostsBySearch,createPost,updatePost,deletePost, likePost, getPost, getImage} from '../controllers/post.js';
+import Auth from '../utils/middleware/Auth.js';
 const router = express.Router();
 
 router.get('', getPosts);
@@ -10,13 +9,15 @@ router.get('/search', getPostsBySearch);
 
 router.get('/:id', getPost);
 
-router.post('/',auth,createPost);
+router.get('/image/:id', getImage);
 
-router.patch('/:id',auth,updatePost);
+router.post('/',Auth,createPost);
 
-router.delete('/:id',auth,deletePost);
+router.patch('/:id',Auth,updatePost);
 
-router.patch('/:id/likePost',auth, likePost);
+router.delete('/:id',Auth,deletePost);
+
+router.patch('/:id/likePost',Auth, likePost);
 
 
 export default router;

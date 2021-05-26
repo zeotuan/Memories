@@ -7,11 +7,13 @@ import {useHistory} from 'react-router-dom';
 import {Post} from '../../type';
 import GetUserFromStorage from '../../utils/userExtractor';
 import {RootState} from '../../state'
+import {ObjectConstructor} from '../../type';
+
 export interface PostData{
     title:string,
     message:string,
     tags:string
-    selectedFile:any
+    file:any
     creatorName:string
 }
 
@@ -25,7 +27,7 @@ const Form = ({setCurId, curId}:FormProps) => {
         title:"",
         message:"",
         tags:"",
-        selectedFile:undefined,
+        file:undefined,
         creatorName:""
     });
     const dispatch = useDispatch(); 
@@ -52,8 +54,8 @@ const Form = ({setCurId, curId}:FormProps) => {
     const handleChange = (e:any) => {
         if(e.target.name === "tags"){
             setPostData({...postData, tags:e.target.value.split(',')});
-        }else if(e.target.name === "selectedFile"){
-            setPostData({...postData,selectedFile: e.target.files[0]})
+        }else if(e.target.name === "file"){
+            setPostData({...postData,file: e.target.files[0]})
         }else{
             setPostData({...postData, [e.target.name]:e.target.value});
         }
@@ -61,22 +63,25 @@ const Form = ({setCurId, curId}:FormProps) => {
     };
     const handleSubmit = (e:FormEvent) => {
         e.preventDefault();
+        const formData = new FormData();
+        Object.keys(postData).forEach( key => postData[key as keyof PostData] && formData.append(key,postData[key as keyof PostData]));
         if(curId){
-            dispatch(updatePost(curId,{...postData}));
+            dispatch(updatePost(curId,formData));
              
         }else{
-            dispatch(createPost({...postData,creatorName: authItem.user.name},history) ); 
+            formData.append("creatorName", authItem.user.name);
+            dispatch(createPost(formData,history) ); 
         }
         clear();
     };
     const clear = () => {
-        setPostData({title:"", message:"", tags:"", selectedFile:undefined, creatorName:""});
+        setPostData({title:"", message:"", tags:"", file:undefined, creatorName:""});
         setCurId(null);
     };
 
     return (
         <Paper className={classes.paper} elevation={6}>
-            <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={(e)=>handleSubmit(e) } >
+            <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={(e)=>handleSubmit(e)}>
                 <Typography variant="h6">{curId? 'Updating' :'Creating'} Memories</Typography>
                 <TextField 
                     name="title" 
@@ -107,10 +112,10 @@ const Form = ({setCurId, curId}:FormProps) => {
                 />
 
                 <div className={classes.fileInput}> 
-                    <input name="selectedFile" id="UploadFileButton" hidden type="file" onChange={handleChange}/>
-                    <label htmlFor="UploadFileButton">
+                    <input name="file" id="file" hidden type="file" onChange={handleChange}/>
+                    <label htmlFor="file">
                         <Button variant="outlined" component="span" size="small" >
-                            {postData.selectedFile? postData.selectedFile.name : "Upload Image"}
+                            {postData.file? postData.file.name : "Upload Image"}
                         </Button>
                     </label>
                 </div>

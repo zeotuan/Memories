@@ -37,14 +37,14 @@ const PostRecommendation = ({post}:PostRecommendationProps) => {
                     <Typography gutterBottom variant="h5">Recommend Posts: </Typography>
                     <Divider>
                         <div className={classes.recommendedPosts}>
-                            {posts.map(({title, message, creatorName, likes, selectedFile, _id}) =>{
+                            {posts.map(({title, message, creatorName, likes, file, _id}) =>{
                                 _id !== post._id && 
                                 <div className={classes.recommendedPost} onClick={() => openPost(_id)} key={_id}>
                                     <Typography gutterBottom variant="h6">{title}</Typography>
                                     <Typography gutterBottom variant="subtitle2">{creatorName}</Typography>
                                     <Typography gutterBottom variant="subtitle2">{message}</Typography>
                                     <Typography gutterBottom variant="subtitle1">Likes: {likes}</Typography>
-                                    <img src={selectedFile} width="200px" />
+                                    <img src={file} width="200px" />
                                 </div>;    
                             })}    
                         </div>

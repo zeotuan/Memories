@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import postMessage from '../models/postMessage.js';
-
+import photoChunk from '../models/photoChunks.js';
+import photoFiles from '../models/photoFiles.js';
+import upload from '../utils/middleware/Upload.js'
 export const getPosts = async (req,res) => {
     //console.log(req)
     const {page} = req.query;
@@ -36,14 +38,20 @@ export const getPostsBySearch = async (req, res) => {
 
 
 export const createPost = async (req,res) => {
-    const body = req.body;
     if(!req.userId){
         return res.status(400).json({error:'unauthenticated'}); 
+        
     }
     try {
-        const newPost = new postMessage({...body, creator:req.userId, createdAt: new Date().toISOString()});
-        await newPost.save();
-        return res.status(200).json(newPost);
+        await upload(req,res);
+        if(req.file){
+            const body = req.body;
+            const newPost = new postMessage({...body, creator:req.userId, createdAt: new Date().toISOString()});
+            newPost.file = req.file.id;
+            await newPost.save();
+            return res.status(200).json(newPost);   
+        }
+        return res.status(400).json({error:"failed to create post"});
     } catch (error) {
         return res.status(409).json({error});
     }
@@ -120,6 +128,32 @@ export const likePost = async (req,res) => {
         await post.save();
         return res.status(200).json(post);
     } catch (error) {
-        return res.status(400).json({error:error});
+        return res.status(400).json({error});
+    }
+}
+
+export const getImage = async (req,res) => {
+    const id = req.params.id
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(400).json({error:'invalid id'});
+    }
+    
+    try {
+        const files = await photoFiles.findById(id);
+        if(!files){
+            return res.status(404).json({error:"image doesn't exist"});
+        } 
+        const chunks = await photoChunk.find({files_id:id}).sort({n:1});
+        let fileData = [];
+        if(!chunks || chunks.length === 0){
+            return res.status(404).json({error:"image  doesn't exist"});
+        }
+        for(let i = 0; i < chunks.length; i++ ){
+            fileData.push(chunks[i].data.toString('base64'));
+        }
+        const imageFile = "data:" + files.contentType + ";base64" + fileData.join("");
+        res.status(200).json({image:imageFile});
+    } catch (error) {
+        return res.status(400).json({error});
     }
 }

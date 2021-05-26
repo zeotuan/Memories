@@ -1,6 +1,7 @@
 import {API} from './index';
 import {SearchQuery, Post} from '../type';
 import {PostData} from '../component/Forms/Form';
+import axios from 'axios';
 const url = '/api/posts';
 
 export const getPosts = async (page:Number|null) => {
@@ -15,11 +16,11 @@ export const getPostBySearch = async (searchQuery:SearchQuery) => {
     return await API.get(`${url}/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`);
 };
 
-export const createPost = async (newPost:PostData) => {
+export const createPost = async (newPost:FormData) => {
     return await API.post(url,newPost);
 };
 
-export const updatePost = async (id:Post['_id'], post:PostData) => {
+export const updatePost = async (id:Post['_id'], post:FormData) => {
     return await API.patch(`${url}/${id}`,post);
 };
 

@@ -10,7 +10,7 @@ const postSchema = mongoose.Schema({
         ref:'User'
     }, 
     tags:[String],
-    selectedFile:String,
+    file:String,
     likes:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
