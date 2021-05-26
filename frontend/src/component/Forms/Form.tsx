@@ -7,7 +7,6 @@ import {useHistory} from 'react-router-dom';
 import {Post} from '../../type';
 import GetUserFromStorage from '../../utils/userExtractor';
 import {RootState} from '../../state'
-
 export interface PostData{
     title:string,
     message:string,
@@ -54,10 +53,11 @@ const Form = ({setCurId, curId}:FormProps) => {
         if(e.target.name === "tags"){
             setPostData({...postData, tags:e.target.value.split(',')});
         }else if(e.target.name === "selectedFile"){
-            setPostData({...postData,selectedFile: e.target.files})
+            setPostData({...postData,selectedFile: e.target.files[0]})
         }else{
             setPostData({...postData, [e.target.name]:e.target.value});
         }
+        console.log(postData);
     };
     const handleSubmit = (e:FormEvent) => {
         e.preventDefault();
@@ -70,7 +70,7 @@ const Form = ({setCurId, curId}:FormProps) => {
         clear();
     };
     const clear = () => {
-        setPostData({title:"", message:"", tags:"", selectedFile:"", creatorName:""});
+        setPostData({title:"", message:"", tags:"", selectedFile:undefined, creatorName:""});
         setCurId(null);
     };
 
@@ -105,8 +105,14 @@ const Form = ({setCurId, curId}:FormProps) => {
                     onChange={handleChange}
                 
                 />
+
                 <div className={classes.fileInput}> 
-                    <Button variant="contained" component="label"><input hidden type="file" onChange={handleChange}/></Button>
+                    <input name="selectedFile" id="UploadFileButton" hidden type="file" onChange={handleChange}/>
+                    <label htmlFor="UploadFileButton">
+                        <Button variant="outlined" component="span" size="small" >
+                            {postData.selectedFile? postData.selectedFile.name : "Upload Image"}
+                        </Button>
+                    </label>
                 </div>
                 <Button 
                     className={classes.buttonSubmit} 

@@ -29,6 +29,7 @@ const Likes = ({user, post}:likesProps) => {
       return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
 };
 
+
 interface postProps{
     post:IPost;
     setCurId:any;
