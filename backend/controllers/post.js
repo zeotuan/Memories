@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 import postMessage from '../models/postMessage.js';
 import photoChunk from '../models/photoChunks.js';
-import photoFiles from '../models/photoFiles.js';
-import upload from '../utils/middleware/Upload.js'
+import photoFiles from '../models/photoFiles.js'
+import upload from '../utils/middleware/Upload.js';
+import {getImages} from '../utils/DownloadPic.js';
+
 export const getPosts = async (req,res) => {
     //console.log(req)
     const {page} = req.query;
@@ -66,7 +68,7 @@ export const getPost = async (req,res) => {
         }
         return res.status(404).json({error:'cannot find post with this id'});
     }catch(error){
-        return res.status(400).jsons({error})
+        return res.status(400).json({error})
     }
 }
 
@@ -154,6 +156,28 @@ export const getImage = async (req,res) => {
         const imageFile = "data:" + files.contentType + ";base64" + fileData.join("");
         res.status(200).json({image:imageFile});
     } catch (error) {
+        return res.status(400).json({error});
+    }
+}
+
+export const getManyImage = async (req,res) => {
+    const body = req.body
+    try{
+        //const images = getImages(body.ids);
+        const pfiles = await photoFiles.find({});
+        const pfilesId = pfiles.map(pf => pf._id);
+        const images = await getImages(pfilesId);
+        // for( const [key, value] of Object.entries(images)){
+        //     console.log({
+        //         key,
+        //         f:{
+        //             f: value.file,
+        //             i: value.image && 1
+        //         }
+        //     })
+        // }
+        return res.status(200).json(images);
+    }catch(error){
         return res.status(400).json({error});
     }
 }
