@@ -15,7 +15,7 @@ API.interceptors.request.use((req) => {
 });
 
 
-API.interceptors.request.use(request => {
-    console.log('Starting Request', JSON.stringify(request, null, 2))
-    return request
-})
+// API.interceptors.request.use(request => {
+//     console.log('Starting Request', JSON.stringify(request, null, 2))
+//     return request
+// })

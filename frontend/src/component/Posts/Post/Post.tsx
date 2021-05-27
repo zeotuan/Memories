@@ -8,7 +8,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import {useDispatch} from 'react-redux';
 import {deletePost, likePost} from '../../../state/Posts/actionCreators';
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import {User, Post as IPost} from '../../../type';
 import getUserFromStorage from '../../../utils/userExtractor';
 
@@ -46,12 +46,12 @@ const Post = ({setCurId, post}:postProps) => {
     const openPost = () => {
         history.push(`/posts/${post._id}`);
     };
+    
     return (
         <Card className={classes.card} raised elevation={6}> 
-            <ButtonBase className={classes.cardAction} onClick={openPost}>
-                <CardMedia className={classes.media} image={post.file} title={post.title}/>
+            <CardMedia className={classes.media} image={post.file} title={post.title}/>
                 <div className={classes.overlay}>
-                    <Typography variant="h6">{post.creatorName}</Typography>
+                    <Typography variant="h6" className={classes.creatorNameLink} component={Link} to={`/${post.creatorName}`}>{post.creatorName}</Typography>
                     <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
                 </div>
                 {
@@ -61,7 +61,8 @@ const Post = ({setCurId, post}:postProps) => {
                             <MoreHorizIcon fontSize="default" />
                         </Button>
                     </div>
-                }    
+                }
+            <ButtonBase className={classes.cardAction} onClick={openPost}>    
                 <div className={classes.details}>
                     <Typography variant="body2" color="textSecondary"> {post.tags.map((tag)=>`#${tag} `)}</Typography>
                 </div>
@@ -81,7 +82,6 @@ const Post = ({setCurId, post}:postProps) => {
                         Delete
                     </Button>
                 }
-                
             </CardActions>
            
         </Card>

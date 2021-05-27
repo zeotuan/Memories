@@ -9,7 +9,7 @@ export const recreateImageFromPart = (chunks, contentType) => {
     for(let i = 0; i < chunks.length; i++ ){
         fileData.push(chunks[i].data.toString('base64'));
     }
-    const imageFile = "data:" + contentType + ";base64" + fileData.join("");
+    const imageFile = "data:" + contentType + ";base64," + fileData.join("").trim();
     return imageFile;
 }
 
@@ -44,20 +44,20 @@ export const getImageFromPhotoFiles = async (files) => {
         //     }
         //     tempParts.push(chunk);
         // })
-        let i = chunks.length-1;
-        while(i >= -1){
-	        if(!curId || i === -1 ||curId !== chunks[i].files_id){
+        let i = 0;
+        while(i <= chunks.length){
+	        if(!curId || i === chunks.length ||curId !== chunks[i].files_id){
 	            if(curId){
                    const contentType = ImageResult[curId].file.contentType;
                     ImageResult[curId].image = recreateImageFromPart(tempParts, contentType);
                 }
-		       if(i >= 0){
+		       if(i < chunks.length){
 			        curId = chunks[i].files_id;
                     tempParts = [];
 		        }        
 	        }
-	        if(i >= 0) tempParts.push(chunks[i]);
-	        i--;
+	        if(i < chunks.length) tempParts.push(chunks[i]);
+	        i++ ;
         }
         return ImageResult;
     }catch(error){

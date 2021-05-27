@@ -53,4 +53,11 @@ export default makeStyles({
     display: 'block',
     textAlign: 'initial',
   },
+  creatorNameLink: {
+    color: 'white',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
+  }
 });

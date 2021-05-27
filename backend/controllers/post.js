@@ -12,11 +12,18 @@ export const getPosts = async (req,res) => {
         const startIndex  = (Number(page) - 1) * LIMIT;
         const total = await postMessage.countDocuments({});
         const posts = await postMessage.find({}).sort({_id: -1}).limit(LIMIT).skip(startIndex);//simple pagination
-        const images = getImages(posts.map(post => post.file));
+        const images = await getImages(posts.map(post => post.file));
         const postsResult = posts.map(post => ({
-            ...post,
-            file:images[post.file]
-        }))
+            _id:post._id,
+            title:post.title,
+            message:post.message,
+            creatorName:post.creatorName,
+            creator:post.creator,
+            tags:post.tags,
+            likes:post.likes,
+            createdAt:post.createdAt,   
+            file:images[post.file].image
+        }));
         return res.status(200).json({
             postsResult,
             currentPage:Number(page),
@@ -35,11 +42,18 @@ export const getPostsBySearch = async (req, res) => {
     try{
        const title  = new RegExp(searchQuery,'i');
        const posts = await postMessage.find({$or:[{title},{tags:{$in:tags.split(',')}}]});
-       const images = getImages(posts.map(post => post.file));
+       const images = await getImages(posts.map(post => post.file));
        const postsResult = posts.map(post => ({
-           ...post,
-           file:images[post.file]
-       }));
+            _id:post._id,
+            title:post.title,
+            message:post.message,
+            creatorName:post.creatorName,
+            creator:post.creator,
+            tags:post.tags,
+            likes:post.likes,
+            createdAt:post.createdAt,   
+            file:images[post.file].image
+    }));
        res.json(postsResult);
     }catch(error){
         return res.status(400).json({error})
@@ -54,6 +68,7 @@ export const createPost = async (req,res) => {
     }
     try {
         await upload(req,res);
+        console.log('file uploaded');
         if(req.file){
             const body = req.body;
             const newPost = new postMessage({...body, creator:req.userId, createdAt: new Date().toISOString()});
@@ -63,7 +78,7 @@ export const createPost = async (req,res) => {
         }
         return res.status(400).json({error:"failed to create post"});
     } catch (error) {
-        deleteImage(req.file.id);
+        deleteImage(req.file?.id);
         return res.status(409).json({error});
     }
 }
@@ -73,12 +88,19 @@ export const getPost = async (req,res) => {
     try{
         const post = await postMessage.findById(id);
         if(post){
-            const image = getImages([post.file]);
+            const image = await getImages([post.file]);
             const postResult ={
-                ...post,
-                file:image[post.file]
+                _id:post._id,
+                title:post.title,
+                message:post.message,
+                creatorName:post.creatorName,
+                creator:post.creator,
+                tags:post.tags,
+                likes:post.likes,
+                createdAt:post.createdAt,   
+                file:images[post.file].image
             }
-            return res.status(200).json(post);
+            return res.status(200).json(postResult);
         }
         return res.status(404).json({error:'cannot find post with this id'});
     }catch(error){
