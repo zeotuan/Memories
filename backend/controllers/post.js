@@ -3,19 +3,22 @@ import postMessage from '../models/postMessage.js';
 import photoChunk from '../models/photoChunks.js';
 import photoFiles from '../models/photoFiles.js'
 import upload from '../utils/middleware/Upload.js';
-import {getImages} from '../utils/DownloadPic.js';
+import {getImages, deleteImage} from '../utils/ImageHelper.js';
 
 export const getPosts = async (req,res) => {
-    //console.log(req)
     const {page} = req.query;
     try {
         const LIMIT = 8;
         const startIndex  = (Number(page) - 1) * LIMIT;
         const total = await postMessage.countDocuments({});
         const posts = await postMessage.find({}).sort({_id: -1}).limit(LIMIT).skip(startIndex);//simple pagination
-
+        const images = getImages(posts.map(post => post.file));
+        const postsResult = posts.map(post => ({
+            ...post,
+            file:images[post.file]
+        }))
         return res.status(200).json({
-            posts,
+            postsResult,
             currentPage:Number(page),
             numberOfPages:Math.ceil(total/LIMIT)
         });
@@ -32,7 +35,12 @@ export const getPostsBySearch = async (req, res) => {
     try{
        const title  = new RegExp(searchQuery,'i');
        const posts = await postMessage.find({$or:[{title},{tags:{$in:tags.split(',')}}]});
-       res.json(posts)
+       const images = getImages(posts.map(post => post.file));
+       const postsResult = posts.map(post => ({
+           ...post,
+           file:images[post.file]
+       }));
+       res.json(postsResult);
     }catch(error){
         return res.status(400).json({error})
     }
@@ -55,6 +63,7 @@ export const createPost = async (req,res) => {
         }
         return res.status(400).json({error:"failed to create post"});
     } catch (error) {
+        deleteImage(req.file.id);
         return res.status(409).json({error});
     }
 }
@@ -64,6 +73,11 @@ export const getPost = async (req,res) => {
     try{
         const post = await postMessage.findById(id);
         if(post){
+            const image = getImages([post.file]);
+            const postResult ={
+                ...post,
+                file:image[post.file]
+            }
             return res.status(200).json(post);
         }
         return res.status(404).json({error:'cannot find post with this id'});
@@ -89,10 +103,12 @@ export const updatePost = async (req,res) => {
         if(post.creator !== req.userId ){
             res.status(400).json({error:'unauthenticated'});
         }
+
         const updatedPost = await postMessage.findByIdAndUpdate(id,body,{new:true});
         res.json(updatedPost);
     } catch (error) {
         res.status(400).json({error:error});
+        
     }
 }
 
@@ -160,6 +176,8 @@ export const getImage = async (req,res) => {
     }
 }
 
+
+//controller for testing retrieving many image
 export const getManyImage = async (req,res) => {
     const body = req.body
     try{

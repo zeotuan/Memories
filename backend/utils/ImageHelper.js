@@ -76,3 +76,14 @@ export const getImages = async (ids) => {
         throw new Error(error.message);
     }
 }
+
+export const deleteImage = async (id) => {
+    if(id){
+       try{
+            await photoFiles.findByIdAndDelete(id);
+            await photoChunk.deleteMany({files_id:id});
+        }catch(error){
+            console.log(error);
+        } 
+    }
+}
