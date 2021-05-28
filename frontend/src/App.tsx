@@ -2,6 +2,7 @@ import React from 'react';
 import {Container} from '@material-ui/core';
 //import useStyles from './style';
 import NavBar from './component/NavBar/NavBar';
+import Alert from './component/Alert/Alert';
 import Home from './component/Home/Home';
 import Auth from './component/Auth/Auth';
 import PostDetails from './component/PostDetails/PostDetails';
@@ -13,6 +14,7 @@ const App = () => {
   return (
     <Router>
       <Container maxWidth="xl" >
+        <Alert />
         <NavBar />
         <Switch>
           <Route exact path="/" component={()=> <Redirect to="/posts"/>} />

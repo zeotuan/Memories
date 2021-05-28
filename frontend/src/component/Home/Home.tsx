@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {Grid, Container, Grow, Paper, AppBar, TextField, Button} from '@material-ui/core';
 import {useHistory,useLocation} from 'react-router-dom';
@@ -49,6 +49,7 @@ const Home = () => {
       
     };
     return (
+
         <Grow in>
         <Container maxWidth="xl">
           <Grid container justify="space-between" alignItems="stretch" spacing={3} className={classes.gridContainer}>
