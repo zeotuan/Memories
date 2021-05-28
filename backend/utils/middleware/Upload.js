@@ -15,7 +15,7 @@ const storage = new GridFsStorage({
                 filename:`${Date.now()}${file.originalname}`
             };
         }else{
-            throw new Error("invalid file type: only png and jpg are supported");
+            console.log("invalid file type: only png and jpg are supported");
         }
     },
 });

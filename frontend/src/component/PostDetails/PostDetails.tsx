@@ -37,7 +37,33 @@ const PostDetails = () => {
                 </div>
             </div>
         </Paper>
+        
     );
 };
 
 export default PostDetails;
+
+
+
+{/* <Card className={classes.card} raised elevation={6}>
+                <div className={classes.section}>
+                    <Typography variant="h3" component="h2">{post.title}</Typography>
+                    <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
+                    <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
+                    <Typography variant="h6">Created by: {post.creatorName}</Typography>
+                    <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
+                </div>
+                <CardMedia className={classes.media} image={post.file || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} />
+        </Card>
+        <Paper className={classes.paper} elevation={6}>
+            <Card className={classes.card}>
+                <div className={classes.section}>
+                    <Typography variant="h3" component="h2">{post.title}</Typography>
+                    <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
+                    <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
+                    <Typography variant="h6">Created by: {post.creatorName}</Typography>
+                    <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
+                </div>
+                <CardMedia className={classes.media} image={post.file || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} />
+            </Card>
+        </Paper> */}

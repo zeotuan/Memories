@@ -68,7 +68,6 @@ export const createPost = async (req,res) => {
     }
     try {
         await upload(req,res);
-        console.log('file uploaded');
         if(req.file){
             const body = req.body;
             const newPost = new postMessage({...body, creator:req.userId, createdAt: new Date().toISOString()});
@@ -76,9 +75,10 @@ export const createPost = async (req,res) => {
             await newPost.save();
             return res.status(200).json(newPost);   
         }
+        await deleteImage(req.file?.id);
         return res.status(400).json({error:"failed to create post"});
     } catch (error) {
-        deleteImage(req.file?.id);
+        await deleteImage(req.file?.id);
         return res.status(409).json({error});
     }
 }
@@ -88,14 +88,14 @@ export const getPost = async (req,res) => {
     try{
         const post = await postMessage.findById(id);
         if(post){
-            const image = await getImages([post.file]);
+            const images = await getImages([post.file]);
             const postResult ={
                 _id:post._id,
                 title:post.title,
                 message:post.message,
                 creatorName:post.creatorName,
                 creator:post.creator,
-                tags:post.tags,
+                tags:post.tags, 
                 likes:post.likes,
                 createdAt:post.createdAt,   
                 file:images[post.file].image
@@ -118,19 +118,23 @@ export const updatePost = async (req,res) => {
     }
     const body = req.body;
     try {
-        const post = await postMessage.findById(id);
-        if(!post){
-            res.status(404).json({error:'post does not exist'});
+        await upload(req,res);
+        if(req.file){
+            const post = await postMessage.findById(id);
+            if(!post){
+                res.status(404).json({error:'post does not exist'});
+            }
+            if(post.creator !== req.userId ){
+                res.status(400).json({error:'unauthenticated'});
+            }
+            const updatedPost = await postMessage.findByIdAndUpdate(id,body,{new:true});
+            return res.json(updatedPost);
         }
-        if(post.creator !== req.userId ){
-            res.status(400).json({error:'unauthenticated'});
-        }
-
-        const updatedPost = await postMessage.findByIdAndUpdate(id,body,{new:true});
-        res.json(updatedPost);
+        await deleteImage(req.file?.id);
+        return res.status(400).json({error:"failed to update post"});
     } catch (error) {
+        await deleteImage(req.file?.id);
         res.status(400).json({error:error});
-        
     }
 }
 
@@ -201,7 +205,7 @@ export const getImage = async (req,res) => {
 
 //controller for testing retrieving many image
 export const getManyImage = async (req,res) => {
-    const body = req.body
+    const body = req.body;
     try{
         //const images = getImages(body.ids);
         const pfiles = await photoFiles.find({});

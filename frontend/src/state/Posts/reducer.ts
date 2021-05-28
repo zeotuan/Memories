@@ -50,7 +50,7 @@ const reducer = (state = initialState, action:Action):postState => {
         case 'LIKE':
             return {
                 ...state, 
-                posts: state.posts.map(p => p._id !== action.payload._id? p : action.payload)
+                posts: state.posts.map(p => p._id !== action.payload._id? p : {...action.payload, file:p.file})
             }; 
         case 'FETCH_BY_SEARCH':
             return {
