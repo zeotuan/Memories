@@ -55,3 +55,12 @@ type ObjectKeys<T> =
 export interface ObjectConstructor {
     keys<T>(o: T): ObjectKeys<T>
 }
+
+export type NotificationSeverity = "error" | "warning" | "info" | "success"| "";
+
+export interface NotificationState{
+    severity: NotificationSeverity;
+    title:string;
+    message:string;
+    visibility:boolean 
+}
