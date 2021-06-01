@@ -6,7 +6,7 @@ import {createPost, updatePost} from '../../state/Posts/actionCreators';
 import {useHistory} from 'react-router-dom';
 import {Post} from '../../type';
 import GetUserFromStorage from '../../utils/userExtractor';
-import {RootState} from '../../state'
+import {RootState} from '../../state';
 import {ObjectConstructor} from '../../type';
 
 export interface PostData{
@@ -55,7 +55,7 @@ const Form = ({setCurId, curId}:FormProps) => {
         if(e.target.name === "tags"){
             setPostData({...postData, tags:e.target.value.split(',')});
         }else if(e.target.name === "file"){
-            setPostData({...postData,file: e.target.files[0]})
+            setPostData({...postData,file: e.target.files[0]});
         }else{
             setPostData({...postData, [e.target.name]:e.target.value});
         }

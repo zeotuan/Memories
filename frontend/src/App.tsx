@@ -21,7 +21,7 @@ const App = () => {
           <Route exact path="/posts" component={Home} />
           <Route exact path="/posts/search" component={Home} />
           <Route exact path="/posts/:id" component={PostDetails} />
-          <Route exact path="/auth" component={() => { return getUserFromStorage()? <Redirect to="posts" />: <Auth /> } } />
+          <Route exact path="/auth" component={() => { return getUserFromStorage()? <Redirect to="posts" />: <Auth />; } } />
 
         </Switch>
       </Container>

@@ -18,21 +18,21 @@ export const SET_NOTIFICATION = ({severity, title, message}:SetNotificationParam
         });
         setTimeout(()=>{
             dispatch({ type:"HIDE_NOTIFICATION"});
-        },2000)
-    }
-}
+        },2000);
+    };
+};
 
 //might not really be a good idea :V
 export const SET_ERROR_NOTIFICATION = ({title = 'Error', message}:{title?:string, message:string}) => {
     return (dispatch:notificationDispath) => {
         dispatch(SET_NOTIFICATION({severity:'error',title,message}));
-    }
-}
+    };
+};
 
 export const SET_SUCCESS_NOTIFICATION = ({title = 'Success', message}:{title?:string,message:string}) => {
     return (dispatch:notificationDispath) => {
         dispatch(SET_NOTIFICATION({severity:'success',title,message}));
-    }
-}
+    };
+};
 
 

@@ -1,11 +1,11 @@
 import {Dispatch} from "react";
 import {postApi} from "../../api";
 import Action from "./action";
-import {Post,SearchQuery} from '../../type'
+import {Post,SearchQuery} from '../../type';
 import {SET_ERROR_NOTIFICATION,SET_SUCCESS_NOTIFICATION} from '../Notification/actionCreator';
 
 export type PostDispatch = Dispatch<Action|((dispatch:Dispatch<any>)=>void)>;
-export const getPosts = (page:Number|null) => { 
+export const getPosts = (page:number|null) => { 
     return async (dispatch:PostDispatch) => {
         try {
             dispatch({type:"START_LOADING"});

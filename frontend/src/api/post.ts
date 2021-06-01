@@ -1,11 +1,11 @@
 import {API} from './index';
 import {SearchQuery, Post} from '../type';
-import {PostData} from '../component/Forms/Form';
-import axios from 'axios';
+// import {PostData} from '../component/Forms/Form';
+// import axios from 'axios';
 const url = '/api/posts';
 
-export const getPosts = async (page:Number|null) => {
-    return await API.get(`${url}?page=${page}`);
+export const getPosts = async (page:number|null) => {
+    return await API.get(`${url}?page=${page?page:'1'}`);
 };
 
 export const getPostById = async (id:string) => {

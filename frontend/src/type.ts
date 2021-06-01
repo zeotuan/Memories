@@ -5,10 +5,14 @@ export interface Post{
     creatorName:string;
     creator:string;
     tags:Array<string>;
-    file:any;
+    file:string;
     likes:Array<string>;
     createdAt:string;
 }
+
+// export interface UserProfile{
+
+// }
 
 interface BaseUser{
     name:string,
@@ -45,16 +49,16 @@ export interface AuthFormData{
 export type User = GoogleUser;
 
 
-type ObjectKeys<T> = 
-  T extends object ? (keyof T)[] :
-  T extends number ? [] :
-  T extends Array<any> | string ? string[] :
-  never;
+// type ObjectKeys<T> = 
+//   T extends object ? (keyof T)[] :
+//   T extends number ? [] :
+//   T extends Array<any> | string ? string[] :
+//   never;
 
 
-export interface ObjectConstructor {
-    keys<T>(o: T): ObjectKeys<T>
-}
+// export interface ObjectConstructor {
+//     keys<T>(o: T): ObjectKeys<T>
+// }
 
 export type NotificationSeverity = "error" | "warning" | "info" | "success"| "";
 
