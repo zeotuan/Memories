@@ -1,6 +1,7 @@
 import Action from './action';
 import {authApi} from '../../api';
-import {User,Credential, AuthFormData} from '../../type';
+import {Credential, AuthFormData} from '../../type';
+import {SET_ERROR_NOTIFICATION, SET_SUCCESS_NOTIFICATION} from '../Notification/actionCreator';
 
 export type authDispath = React.Dispatch<Action>;
 
