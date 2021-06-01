@@ -32,7 +32,7 @@ const Likes = ({user, post}:likesProps) => {
 
 interface postProps{
     post:IPost;
-    setCurId:any;
+    setCurId:React.Dispatch<React.SetStateAction<string|null>>;
 }
 
 

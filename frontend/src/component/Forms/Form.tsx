@@ -1,4 +1,4 @@
-import React,{useState, useEffect, FormEventHandler, FormEvent} from 'react';
+import React,{useState, useEffect, FormEvent} from 'react';
 import {TextField, Typography, Button, Paper} from '@material-ui/core';
 import useStyles from './style';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,12 +7,12 @@ import {useHistory} from 'react-router-dom';
 import {Post} from '../../type';
 import GetUserFromStorage from '../../utils/userExtractor';
 import {RootState} from '../../state';
-import {ObjectConstructor} from '../../type';
+import ChipInput from 'material-ui-chip-input';
 
 export interface PostData{
     title:string,
     message:string,
-    tags:string
+    tags:Array<string>
     file:any
     creatorName:string
 }
@@ -26,7 +26,7 @@ const Form = ({setCurId, curId}:FormProps) => {
     const [postData, setPostData] = useState<PostData>({
         title:"",
         message:"",
-        tags:"",
+        tags:[],
         file:undefined,
         creatorName:""
     });
@@ -37,7 +37,7 @@ const Form = ({setCurId, curId}:FormProps) => {
     const history = useHistory();
     useEffect(()=>{
         if(post){
-            setPostData({...post, tags:post.tags.join(',')});
+            setPostData({...post, tags:post.tags});
         } 
     },[post]);
     
@@ -51,16 +51,15 @@ const Form = ({setCurId, curId}:FormProps) => {
             </Paper>
         );
     }
-    const handleChange = (e:any) => {
-        if(e.target.name === "tags"){
-            setPostData({...postData, tags:e.target.value.split(',')});
-        }else if(e.target.name === "file"){
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        if(e.target.name === "file" && e.target.files){
             setPostData({...postData,file: e.target.files[0]});
         }else{
             setPostData({...postData, [e.target.name]:e.target.value});
         }
         console.log(postData);
     };
+    
     const handleSubmit = (e:FormEvent) => {
         e.preventDefault();
         const formData = new FormData();
@@ -75,9 +74,17 @@ const Form = ({setCurId, curId}:FormProps) => {
         clear();
     };
     const clear = () => {
-        setPostData({title:"", message:"", tags:"", file:undefined, creatorName:""});
+        setPostData({title:"", message:"", tags:[], file:undefined, creatorName:""});
         setCurId(null);
     };
+
+    const handleAddTag = (tag:string) => {
+        setPostData({...postData, tags:[...postData.tags, tag]});
+    }
+
+    const handleDeleteTag = (tagToDelete:string) => {
+        setPostData({...postData, tags:postData.tags.filter((tag) => tag !== tagToDelete)});
+    }
 
     return (
         <Paper className={classes.paper} elevation={6}>
@@ -101,15 +108,16 @@ const Form = ({setCurId, curId}:FormProps) => {
                     onChange={handleChange}
                 
                 />
-                <TextField 
-                    name="tags" 
-                    variant="outlined" 
-                    label="tags" 
-                    fullWidth
-                    value={postData.tags}
-                    onChange={handleChange}
-                
-                />
+                <div style={{ padding: '5px 0', width: '94%' }}>
+                    <ChipInput
+                        variant="outlined"
+                        label="Tags"
+                        fullWidth
+                        value={postData.tags}
+                        onAdd={(chip) => handleAddTag(chip)}
+                        onDelete={(chip) => handleDeleteTag(chip)}
+                    />
+                </div>
 
                 <div className={classes.fileInput}> 
                     <input name="file" id="file" hidden type="file" onChange={handleChange}/>

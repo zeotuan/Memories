@@ -76,7 +76,7 @@ export const createPost = async (req,res) => {
             return res.status(200).json(newPost);   
         }
         await deleteImage(req.file?.id);
-        return res.status(400).json({error:"failed to create post"});
+        return res.status(400).json({error:"Failed to create post"});
     } catch (error) {
         await deleteImage(req.file?.id);
         return res.status(409).json({error});

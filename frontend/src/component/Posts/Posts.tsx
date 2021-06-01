@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import {CircularProgress, Grid, Typography} from '@material-ui/core';
 import {RootState} from '../../state';
 interface postsProps{
-    setCurId:any
+    setCurId:React.Dispatch<React.SetStateAction<string|null>>
 }
 
 const Posts = ({setCurId}:postsProps) => {
