@@ -18,7 +18,7 @@ export interface PostData{
 }
 
 interface FormProps{
-    setCurId:any;
+    setCurId:React.Dispatch<React.SetStateAction<string|null>>;
     curId:Post['_id']|null;
 }
 
@@ -63,7 +63,11 @@ const Form = ({setCurId, curId}:FormProps) => {
     const handleSubmit = (e:FormEvent) => {
         e.preventDefault();
         const formData = new FormData();
-        Object.keys(postData).forEach( key => postData[key as keyof PostData] && formData.append(key,postData[key as keyof PostData]));
+        Object
+            .keys(postData)
+            .forEach((key) => {
+                postData[key as keyof PostData] && formData.append(key,postData[key as keyof PostData]);
+            });
         if(curId){
             dispatch(updatePost(curId,formData));
              
@@ -80,11 +84,11 @@ const Form = ({setCurId, curId}:FormProps) => {
 
     const handleAddTag = (tag:string) => {
         setPostData({...postData, tags:[...postData.tags, tag]});
-    }
+    };
 
     const handleDeleteTag = (tagToDelete:string) => {
         setPostData({...postData, tags:postData.tags.filter((tag) => tag !== tagToDelete)});
-    }
+    };
 
     return (
         <Paper className={classes.paper} elevation={6}>

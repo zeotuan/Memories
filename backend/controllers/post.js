@@ -25,7 +25,7 @@ export const getPosts = async (req,res) => {
             file:images[post.file].image
         }));
         return res.status(200).json({
-            postsResult,
+            posts:postsResult,
             currentPage:Number(page),
             numberOfPages:Math.ceil(total/LIMIT)
         });

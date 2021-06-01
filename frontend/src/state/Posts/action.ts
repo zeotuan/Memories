@@ -1,13 +1,9 @@
 import {Post} from '../../type';
-
+import {getPostsResult} from '../../api/post';
 type Action =
   | {
       type: "FETCH_ALL";
-      payload: {
-          posts:Array<Post>,
-          currentPage:number,
-          numberOfPages:number
-      };
+      payload: getPostsResult;
     }
   | {
       type: "FETCH_BY_SEARCH";

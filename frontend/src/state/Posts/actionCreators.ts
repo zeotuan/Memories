@@ -9,11 +9,11 @@ export const getPosts = (page:number|null) => {
     return async (dispatch:PostDispatch) => {
         try {
             dispatch({type:"START_LOADING"});
-            const {data: {postsResult,currentPage,numberOfPages}} = await postApi.getPosts(page);
+            const {data: {posts,currentPage,numberOfPages}} = await postApi.getPosts(page);
             dispatch({
                 type:"FETCH_ALL",
                 payload:{
-                    posts:postsResult,
+                    posts,
                     currentPage,
                     numberOfPages
                 }
