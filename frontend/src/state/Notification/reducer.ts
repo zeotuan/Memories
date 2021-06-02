@@ -5,7 +5,7 @@ const initialState:NotificationState ={
     title:"",
     message:"",
     visibility:false 
-}
+};
 
 const reducer = (state=initialState,action:Action):NotificationState => {
     switch(action.type){
@@ -20,8 +20,8 @@ const reducer = (state=initialState,action:Action):NotificationState => {
         case "HIDE_NOTIFICATION":
             return {...state, visibility:false};
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default reducer;

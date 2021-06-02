@@ -1,12 +1,12 @@
+import {Dispatch} from 'react';
 import Action from './action';
 import {NotificationState} from '../../type';
-import React from 'react';
 
 type SetNotificationParam = Omit<NotificationState,'visibility'>; 
-export type notificationDispath = React.Dispatch<Action>;
+export type notificationDispath = Dispatch<Action|((dispatch:Dispatch<Action>)=>void)>;
 
 export const SET_NOTIFICATION = ({severity, title, message}:SetNotificationParam) => {
-    return (dispatch:notificationDispath) => {
+    return (dispatch:Dispatch<Action>) => {
         dispatch({
             type:"SET_NOTIFICATION",
             payload:{
@@ -18,21 +18,21 @@ export const SET_NOTIFICATION = ({severity, title, message}:SetNotificationParam
         });
         setTimeout(()=>{
             dispatch({ type:"HIDE_NOTIFICATION"});
-        },2000)
-    }
-}
+        },2000);
+    };
+};
 
 //might not really be a good idea :V
-export const SET_ERROR_NOTIFICATION = (title = 'Error', message:string) => {
-    return (dispatch:React.Dispatch<any>) => {
+export const SET_ERROR_NOTIFICATION = ({title = 'Error', message}:{title?:string, message:string}) => {
+    return (dispatch:notificationDispath) => {
         dispatch(SET_NOTIFICATION({severity:'error',title,message}));
-    }
-}
+    };
+};
 
-export const SET_SUCCESS_NOTIFICATION = (title = 'Success', message:string) => {
-    return (dispatch:React.Dispatch<any>) => {
+export const SET_SUCCESS_NOTIFICATION = ({title = 'Success', message}:{title?:string,message:string}) => {
+    return (dispatch:notificationDispath) => {
         dispatch(SET_NOTIFICATION({severity:'success',title,message}));
-    }
-}
+    };
+};
 
 

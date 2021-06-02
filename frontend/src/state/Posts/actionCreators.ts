@@ -1,20 +1,21 @@
-import React from "react";
+import {Dispatch} from "react";
 import {postApi} from "../../api";
 import Action from "./action";
-import {Post,SearchQuery} from '../../type'
-import {PostData} from '../../component/Forms/Form';
-export type PostDispatch = React.Dispatch<Action>;
+import {Post,SearchQuery} from '../../type';
+import {SET_ERROR_NOTIFICATION,SET_SUCCESS_NOTIFICATION} from '../Notification/actionCreator';
+import {History, Location} from 'history';
+import {notificationDispath} from '../Notification/actionCreator';
 
-export const getPosts = (page:Number|null) => { 
+export type PostDispatch = Dispatch<Action|((dispatch:notificationDispath)=>void)>;
+export const getPosts = (page:number|null) => { 
     return async (dispatch:PostDispatch) => {
         try {
             dispatch({type:"START_LOADING"});
-            const {data: {postsResult,currentPage,numberOfPages}} = await postApi.getPosts(page);
-            console.log(postsResult);
+            const {data: {posts,currentPage,numberOfPages}} = await postApi.getPosts(page);
             dispatch({
                 type:"FETCH_ALL",
                 payload:{
-                    posts:postsResult,
+                    posts,
                     currentPage,
                     numberOfPages
                 }
@@ -43,7 +44,7 @@ export const getPostBySearch = (searchQuery:SearchQuery) => {
 };
 
 
-export const createPost = (newPost:FormData,history:any) => {
+export const createPost = (newPost:FormData,history:History<Location>) => {
     return async (dispatch:PostDispatch) => {
         try {
             dispatch({type:'START_LOADING'});
@@ -54,7 +55,9 @@ export const createPost = (newPost:FormData,history:any) => {
                 payload:createdPost
             });
             dispatch({type:'STOP_LOADING'}); 
+            dispatch(SET_SUCCESS_NOTIFICATION({message:"Post created successfully"}));
         } catch (error) {
+            dispatch(SET_ERROR_NOTIFICATION({message:"Failed to create post"}));
             console.log(error);
         }
         
@@ -69,7 +72,9 @@ export const updatePost = (id:Post['_id'],post:FormData) => {
                 type:'UPDATE',
                 payload:updatedPost
             });
+            dispatch(SET_SUCCESS_NOTIFICATION({message:"Post updated successfully"}));
         } catch (error) {
+            dispatch(SET_ERROR_NOTIFICATION({message:"Failed to update post"}));
             console.log(error);
         }
     };
@@ -83,7 +88,9 @@ export const deletePost = (id:Post['_id']) => {
                 type:'DELETE',
                 payload:id
             });
+            dispatch(SET_SUCCESS_NOTIFICATION({message:"Post deleted successfully"}));
         } catch (error) {
+            dispatch(SET_ERROR_NOTIFICATION({message:"Failed to delette post"}));
             console.log(error);
         }
     };

@@ -3,14 +3,14 @@ import {User} from '../../type';
 type Action =
   | {
       type: "AUTH";
-      payload:User|any;
+      payload:User;
     }
   | {
       type: "LOGOUT";
     }
   | {
       type: "SIGNUP";
-      payload:User|any;
+      payload:User;
     };
  
 

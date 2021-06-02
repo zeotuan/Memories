@@ -15,7 +15,7 @@ const initialState:postState = {
     currentPage:null,
     numberOfPages:null,
     post:null
-}
+};
 
 const reducer = (state = initialState, action:Action):postState => {
     switch(action.type){

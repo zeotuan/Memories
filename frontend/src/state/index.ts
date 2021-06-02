@@ -12,7 +12,7 @@ const reducer = combineReducers({
     auth,
     notification
 });
-export type RootState = ReturnType<typeof reducer>
+export type RootState = ReturnType<typeof reducer>;
 export type AppAction = AuthAction | PostAction | NotificationAction;
 
 export default reducer;

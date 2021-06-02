@@ -8,7 +8,7 @@ import Form from '../Forms/Form';
 import Pagination from  '../Pagination';
 import {getPostBySearch} from '../../state/Posts/actionCreators';
 import useStyles from './style';
-
+import {Post} from '../../type';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -17,7 +17,7 @@ const useQuery = () => {
 const Home = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [curId, setCurId] = useState(null);
+    const [curId, setCurId] = useState<Post['_id']|null>(null);
     const query = useQuery();
     const history = useHistory();
     const page = query.get('page') || 1;

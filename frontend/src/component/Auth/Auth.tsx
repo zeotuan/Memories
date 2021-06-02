@@ -4,7 +4,7 @@ import {Avatar, Button, Paper, Grid, Typography, Container} from '@material-ui/c
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './style';
 import Input from  './Input';
-import {GoogleLogin} from 'react-google-login';
+import {GoogleLogin, GoogleLoginResponse} from 'react-google-login';
 import Icon from './Icon';
 import {useDispatch} from 'react-redux';
 import {SignIn,SignUp} from '../../state/Auth/actionCreator';
@@ -23,7 +23,7 @@ const Auth = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const history = useHistory();
-    const handleSubmit = (e:any) => {
+    const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(isSignUp){
             dispatch(SignUp(authFormData,history));
@@ -33,7 +33,7 @@ const Auth = () => {
         setIsSignUp(false);
 
     };
-    const handleChange = (e:any) => {
+    const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setAuthFormData({...authFormData, [e.target.name]:e.target.value});
     };
     const handleShowPassword = () => {
@@ -44,7 +44,7 @@ const Auth = () => {
         setShowPassword(false);
     };
 
-    const googleSuccess = async (res:any) => {
+    const googleSuccess = (res:GoogleLoginResponse) => {
         const result = res?.profileObj;
         const token = res?.tokenId;
         try {
@@ -97,7 +97,7 @@ const Auth = () => {
                             Sign In With Goggle
                         </Button>);
                     }}
-                    onSuccess={googleSuccess}
+                    onSuccess={(responseGoogle) => googleSuccess(responseGoogle as GoogleLoginResponse)}
                     onFailure={googleFailure}
                     cookiePolicy="single_host_origin"
                 />

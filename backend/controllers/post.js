@@ -25,7 +25,7 @@ export const getPosts = async (req,res) => {
             file:images[post.file].image
         }));
         return res.status(200).json({
-            postsResult,
+            posts:postsResult,
             currentPage:Number(page),
             numberOfPages:Math.ceil(total/LIMIT)
         });
@@ -70,13 +70,13 @@ export const createPost = async (req,res) => {
         await upload(req,res);
         if(req.file){
             const body = req.body;
-            const newPost = new postMessage({...body, creator:req.userId, createdAt: new Date().toISOString()});
+            const newPost = new postMessage({...body,tags:body.tags.split(','), creator:req.userId, createdAt: new Date().toISOString()});
             newPost.file = req.file.id;
             await newPost.save();
             return res.status(200).json(newPost);   
         }
         await deleteImage(req.file?.id);
-        return res.status(400).json({error:"failed to create post"});
+        return res.status(400).json({error:"Failed to create post"});
     } catch (error) {
         await deleteImage(req.file?.id);
         return res.status(409).json({error});
@@ -127,7 +127,7 @@ export const updatePost = async (req,res) => {
             if(post.creator !== req.userId ){
                 res.status(400).json({error:'unauthenticated'});
             }
-            const updatedPost = await postMessage.findByIdAndUpdate(id,body,{new:true});
+            const updatedPost = await postMessage.findByIdAndUpdate(id,{...body, tags:body.tags.split(',')},{new:true});
             return res.json(updatedPost);
         }
         await deleteImage(req.file?.id);

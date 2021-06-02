@@ -8,14 +8,15 @@ export interface AuthenticationItem{
 const getUserFromStorage = ():AuthenticationItem|undefined => {
     const profile = localStorage.getItem('profile');
     if(profile){
+        // eslint-disable-next-line
         const userResult = JSON.parse(profile);
         if(userResult.result && userResult.token){
             return {
                 user: userResult.result as User,
                 token:userResult.token as string                
-            }
+            };
         }
     }
     return undefined;
-}
+};
 export default getUserFromStorage;
