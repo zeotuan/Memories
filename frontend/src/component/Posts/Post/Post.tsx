@@ -19,7 +19,7 @@ interface likesProps{
 
 const Likes = ({user, post}:likesProps) => {
     if (post.likes.length > 0) {
-        return post.likes.find((like) => like === (user?.googleId || user?._id))
+        return post.likes.find((like) => like === ((user?.type === "google" && user?.googleId) || user?._id))
           ? (
             <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
           ) : (
@@ -55,7 +55,7 @@ const Post = ({setCurId, post}:postProps) => {
                     <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
                 </div>
                 {
-                    (user?.googleId === post?.creator || user?._id === post?.creator) && 
+                    ((user?.type === "google" && user.googleId === post?.creator) || user?._id === post?.creator) && 
                     <div className={classes.overlay2}>
                         <Button style={{color:'white'}} size="small" onClick={()=> {setCurId(post._id);}}>
                             <MoreHorizIcon fontSize="default" />
@@ -76,7 +76,7 @@ const Post = ({setCurId, post}:postProps) => {
                     <Likes user={user} post={post}/>
                 </Button>
                 {
-                    (user?.googleId === post?.creator || user?._id === post?.creator) && 
+                    ( (user?.type === "google" && user.googleId === post?.creator) || user?._id === post?.creator) && 
                     <Button size="small" color="primary" onClick={()=>{window.confirm("do you want to delete this post") && dispatch(deletePost(post._id)); }}>
                         <DeleteIcon fontSize="small" />
                         Delete
