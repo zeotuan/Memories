@@ -10,11 +10,9 @@ import {RootState} from '../../state';
 import ChipInput from 'material-ui-chip-input';
 
 export interface PostData{
-    title:string,
-    message:string,
-    tags:Array<string>
-    file:any
-    creatorName:string
+    title:string;
+    message:string;
+    creatorName:string;
 }
 
 interface FormProps{
@@ -26,10 +24,10 @@ const Form = ({setCurId, curId}:FormProps) => {
     const [postData, setPostData] = useState<PostData>({
         title:"",
         message:"",
-        tags:[],
-        file:undefined,
-        creatorName:""
+        creatorName:"",
     });
+    const [tags, setTags] = useState<Array<string>>([]);
+    const [imageFile, setImageFile] = useState<File>();
     const dispatch = useDispatch(); 
     const classes  = useStyles();
     const post = useSelector((state:RootState) => curId? state.posts.posts.find(p => p._id === curId): null);
@@ -37,7 +35,8 @@ const Form = ({setCurId, curId}:FormProps) => {
     const history = useHistory();
     useEffect(()=>{
         if(post){
-            setPostData({...post, tags:post.tags});
+            setPostData({...post});
+            setTags(post.tags);
         } 
     },[post]);
     
@@ -52,12 +51,12 @@ const Form = ({setCurId, curId}:FormProps) => {
         );
     }
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        if(e.target.name === "file" && e.target.files){
-            setPostData({...postData,file: e.target.files[0]});
-        }else{
-            setPostData({...postData, [e.target.name]:e.target.value});
-        }
+        setPostData({...postData, [e.target.name]:e.target.value});
         console.log(postData);
+    };
+
+    const handleImageChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        e.target.files && setImageFile(e.target.files[0]);
     };
     
     const handleSubmit = (e:FormEvent) => {
@@ -66,8 +65,10 @@ const Form = ({setCurId, curId}:FormProps) => {
         Object
             .keys(postData)
             .forEach((key) => {
-                postData[key as keyof PostData] && formData.append(key,postData[key as keyof PostData]);
+                formData.append(key,postData[key as keyof PostData]);               
             });
+        formData.append("tags",tags.join(","));
+        imageFile && formData.append("file",imageFile);
         if(curId){
             dispatch(updatePost(curId,formData));
              
@@ -78,16 +79,18 @@ const Form = ({setCurId, curId}:FormProps) => {
         clear();
     };
     const clear = () => {
-        setPostData({title:"", message:"", tags:[], file:undefined, creatorName:""});
+        setPostData({title:"", message:"", creatorName:""});
+        setTags([]);
+        setImageFile(undefined);
         setCurId(null);
     };
 
     const handleAddTag = (tag:string) => {
-        setPostData({...postData, tags:[...postData.tags, tag]});
+        setTags([...tags, tag]);
     };
 
     const handleDeleteTag = (tagToDelete:string) => {
-        setPostData({...postData, tags:postData.tags.filter((tag) => tag !== tagToDelete)});
+        setTags(tags.filter((tag) => tag !== tagToDelete));
     };
 
     return (
@@ -117,17 +120,17 @@ const Form = ({setCurId, curId}:FormProps) => {
                         variant="outlined"
                         label="Tags"
                         fullWidth
-                        value={postData.tags}
+                        value={tags}
                         onAdd={(chip) => handleAddTag(chip)}
                         onDelete={(chip) => handleDeleteTag(chip)}
                     />
                 </div>
 
                 <div className={classes.fileInput}> 
-                    <input name="file" id="file" hidden type="file" onChange={handleChange}/>
+                    <input name="file" id="file" hidden type="file" accept="image/*" onChange={handleImageChange}/>
                     <label htmlFor="file">
                         <Button variant="outlined" component="span" size="small" >
-                            {postData.file? postData.file.name : "Upload Image"}
+                            {imageFile? imageFile.name : "Upload Image"}
                         </Button>
                     </label>
                 </div>

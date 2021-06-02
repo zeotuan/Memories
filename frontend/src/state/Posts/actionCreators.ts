@@ -3,8 +3,10 @@ import {postApi} from "../../api";
 import Action from "./action";
 import {Post,SearchQuery} from '../../type';
 import {SET_ERROR_NOTIFICATION,SET_SUCCESS_NOTIFICATION} from '../Notification/actionCreator';
+import {History, Location} from 'history';
+import {notificationDispath} from '../Notification/actionCreator';
 
-export type PostDispatch = Dispatch<Action|((dispatch:Dispatch<any>)=>void)>;
+export type PostDispatch = Dispatch<Action|((dispatch:notificationDispath)=>void)>;
 export const getPosts = (page:number|null) => { 
     return async (dispatch:PostDispatch) => {
         try {
@@ -42,7 +44,7 @@ export const getPostBySearch = (searchQuery:SearchQuery) => {
 };
 
 
-export const createPost = (newPost:FormData,history:any) => {
+export const createPost = (newPost:FormData,history:History<Location>) => {
     return async (dispatch:PostDispatch) => {
         try {
             dispatch({type:'START_LOADING'});

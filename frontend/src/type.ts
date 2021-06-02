@@ -14,18 +14,21 @@ export interface Post{
 
 // }
 
-interface BaseUser{
+export interface BaseUser{
     name:string,
     email:string,
-    _id:string
+    _id:string,
+    imageUrl:string;
 }
 
+export interface signInUser extends BaseUser{
+    type:"normal";
+    token:string;
+}
 
 export interface GoogleUser extends BaseUser{
     type:"google";
-    imageUrl:string;
     googleId:string;
-
 }
 
 export interface SearchQuery{
@@ -46,7 +49,7 @@ export interface AuthFormData{
     confirmPassword:string
 }
 
-export type User = GoogleUser;
+export type User = GoogleUser|signInUser;
 
 
 // type ObjectKeys<T> = 
@@ -67,4 +70,11 @@ export interface NotificationState{
     title:string;
     message:string;
     visibility:boolean 
+}
+
+export interface IDecodedToken {
+    name:string;
+    email: string; 
+    _id: string;
+    exp:number;
 }
