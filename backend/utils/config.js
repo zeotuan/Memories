@@ -12,12 +12,15 @@ const PORT = process.env.PORT || 3002;
 const JWT_SECRET = process.env.JWT_SECRET;
 const saltRound = parseInt(process.env.saltRound);
 const dbName = process.env.dbName || '';
-const photoCollectionName = process.env.photoCollectionName
+const photoCollectionName = process.env.photoCollectionName;
+const clientId = process.env.clientId;
+
 export default {
     MONGO_URI,
     PORT,
     JWT_SECRET,
     saltRound,
     dbName,
-    photoCollectionName
+    photoCollectionName,
+    clientId
 }

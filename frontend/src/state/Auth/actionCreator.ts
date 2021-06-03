@@ -11,7 +11,18 @@ export type authDispath = Dispatch<Action|((dispatch:notificationDispath)=>void)
 export const SignIn = (credential:Credential, history:History<Location>) => {
     return async (dispatch:authDispath) => {
         try {
-            const {data: signInUser} = await authApi.signIn(credential);
+            let result;
+            switch(credential.type){
+                case "googleSignIn":
+                    result = await authApi.signInWithGoogle(credential.idToken);        
+                    break;
+                case "normalSignIn":
+                    result = await authApi.signIn(credential);
+                    break;
+                default:
+                    return;
+            }
+            const {data: signInUser} = result;
             dispatch({
                 type:"AUTH",
                 payload: signInUser
@@ -20,7 +31,7 @@ export const SignIn = (credential:Credential, history:History<Location>) => {
             history.push("/");
         } catch (error) {
             console.log(error);
-            dispatch(SET_SUCCESS_NOTIFICATION({message:"Failed to Signed In!"}));
+            dispatch(SET_ERROR_NOTIFICATION({message:"Failed to Signed In!"}));
         }
     };
 };

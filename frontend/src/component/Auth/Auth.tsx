@@ -28,7 +28,7 @@ const Auth = () => {
         if(isSignUp){
             dispatch(SignUp(authFormData,history));
         }else{
-            dispatch(SignIn({ email:authFormData.email, password:authFormData.password },history));
+            dispatch(SignIn({type:"normalSignIn", email:authFormData.email, password:authFormData.password },history));
         }
         setIsSignUp(false);
 
@@ -45,11 +45,11 @@ const Auth = () => {
     };
 
     const googleSuccess = (res:GoogleLoginResponse) => {
-        const result = res?.profileObj;
+        console.log(res);
+        //const result = res?.profileObj;
         const token = res?.tokenId;
         try {
-            dispatch({type:'AUTH',payload:{result,token}});
-            history.push("/");
+            dispatch(SignIn({type:"googleSignIn",idToken:token},history));
         } catch (error) {
             console.log(error);
         }

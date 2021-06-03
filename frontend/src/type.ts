@@ -36,10 +36,18 @@ export interface SearchQuery{
     tags:string;
 }
 
-export interface Credential{
+export interface NormalCredential{
+    type:"normalSignIn";
     email:string;
     password:string;
 }
+
+export interface GoogleCredential{
+    type:"googleSignIn",
+    idToken:string
+}
+
+export type Credential = NormalCredential|GoogleCredential;
 
 export interface AuthFormData{
     firstName:string,
