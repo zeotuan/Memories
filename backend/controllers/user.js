@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'; 
 import config from '../utils/config.js';
 import User from '../models/user.js';
-import verify from '../utils/verifyToken';
+import verify from '../utils/verifyToken.js';
 export const signUp = async (req, res) => {
     const body = req.body;
     if(!body.password){
@@ -80,12 +80,27 @@ export const signInWithGoogle = async (req,res) => {
                 }
             })
             await user.save();
+        }else{
+            if(!user.googleInfo){
+                user.googleInfo = {
+                    id:payload.sub,
+                    token:body.idToken,
+                    imageUrl:payload.picture, 
+                    email_verified:payload.email_verified,  
+                    locale:payload.locale
+                }
+            }else{
+                user.googleInfo.token = body.idToken
+                user.googleInfo.imageUrl = payload.picture
+                user.googleInfo.locale = payload.locale
+            }
+            await user.save();
         }
         const userForToken = {
             name:`${user.firstName} ${user.lastName}`,
             email: user.email, 
             _id: user._id,
-            imageUrl:user.googleInfo.imageUrl   
+            imageUrl:user.imageUrl?user.imageUrl:user.googleInfo.imageUrl   
         }
 
         const token = jwt.sign(userForToken,config.JWT_SECRET,{expiresIn:"24h"});

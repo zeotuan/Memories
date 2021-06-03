@@ -31,7 +31,7 @@ export const SignIn = (credential:Credential, history:History<Location>) => {
             history.push("/");
         } catch (error) {
             console.log(error);
-            dispatch(SET_SUCCESS_NOTIFICATION({message:"Failed to Signed In!"}));
+            dispatch(SET_ERROR_NOTIFICATION({message:"Failed to Signed In!"}));
         }
     };
 };

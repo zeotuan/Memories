@@ -8,6 +8,7 @@ const verify = async (token) => {
         idToken:token,
         audience:config.clientId,
     })
+    console.log(ticket);
     const payload = ticket.getPayload();
     return payload;
 }
