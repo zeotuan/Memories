@@ -135,6 +135,53 @@ export const signInWithGoogle = async (req,res) => {
         const token = jwt.sign(userForToken,config.JWT_SECRET,{expiresIn:"24h"});
         return res.status(200).json({result:userForToken, token});
     } catch (error) {
-        return res.status(400).json('login with google failed');
+        return res.status(400).json("login with google failed");
     }
+}
+
+export const tokenConfirmation = async (req, res) => {
+    const token = req.query.token
+    if(!token){
+        return res.status(500).json({error:"invalid link"});
+    }
+    const existToken = await Token.findOne({token:token});
+    if(!existToken){
+        return res.status(500).json({error:"invalid token"});
+    }
+    let user = await User.findOne({_id:existToken.userId});
+    if(!user){
+        return res.status(500).json({error:"invalid token"});
+    }
+    user.verified = true;
+    await user.save();
+    return res.status(200).josn({message:"user verified"})
+}
+
+export const resendToken = async (req,res) => {
+    if(!req.userId){
+        return res.status(401).json({error:"Unauthenticated User"});
+    }
+    let user = await User.findById(req.userId);
+    if(user.verified){
+        return res.status(400).json({error:"This user is already verified"});
+    }
+    const userForToken = {
+        name:`${user.firstName} ${user.lastName}`,
+        email: user.email, 
+        _id: user._id
+    }
+    const token = new Token({
+        userId: user._id,
+        token:jwt.sign(userForToken,config.JWT_SECRET,{expiresIn:"24h"}),
+    })
+    await token.save();
+    const mail = createTokenEmail({userEmail:user.email, token:token.token});
+    transporter.sendMail(mail, (error,_info) => {
+        if(error){
+            console.log(error);
+            return res.status(500).send({error})
+        }else{
+            return res.status(200).send({message:"successfully created verification token"});
+        }
+    })
 }

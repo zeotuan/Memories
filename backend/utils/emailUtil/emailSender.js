@@ -24,7 +24,7 @@ export const createTokenEmail = ({userEmail,token}) =>({
     from:'noreply@memories.com',
     to:userEmail,
     subject: 'Account Verification Token', 
-    text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + config.host+config.PORT + '\/confirmation\/' + token + '.\n'
+    text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp://' + config.host+config.PORT + '/api/users/confirmation/?token='+ token +'.\n'
 })
 
 // transporter.sendMail(mai, function (error, info){
