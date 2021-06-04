@@ -14,7 +14,10 @@ const saltRound = parseInt(process.env.saltRound);
 const dbName = process.env.dbName || '';
 const photoCollectionName = process.env.photoCollectionName;
 const clientId = process.env.clientId;
-
+const clientSecret = process.env.clientSecret || '';
+const email = process.env.email || ' ';
+const emailPassword = process.env.emailPassword || ' ';
+const host = process.env.host || 'http://localhost:';
 export default {
     MONGO_URI,
     PORT,
@@ -22,5 +25,9 @@ export default {
     saltRound,
     dbName,
     photoCollectionName,
-    clientId
+    clientId,
+    clientSecret,
+    email,
+    emailPassword,
+    host
 }
