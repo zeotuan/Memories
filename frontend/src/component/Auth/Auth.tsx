@@ -8,6 +8,7 @@ import {GoogleLogin, GoogleLoginResponse} from 'react-google-login';
 import Icon from './Icon';
 import {useDispatch} from 'react-redux';
 import {SignIn,SignUp} from '../../state/Auth/actionCreator';
+import {SET_ERROR_NOTIFICATION} from '../../state/Notification/actionCreator';
 
 //import {useSelector} from 'react-redux';
 const Auth = () => {
@@ -56,7 +57,7 @@ const Auth = () => {
     };
 
     const googleFailure = () => {
-        console.log("google signIn fail");
+        dispatch(SET_ERROR_NOTIFICATION({message:"failed to sign in with  google"}));
     };
 
     return (
