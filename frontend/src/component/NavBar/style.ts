@@ -4,12 +4,12 @@ import { deepPurple } from '@material-ui/core/colors';
 export default makeStyles((theme:Theme) => ({
   appBar: {
     borderRadius: 15,
-    margin: '30px 0',
+    margin: '10px 0',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '10px 50px',
+    padding: '5px',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
@@ -34,7 +34,7 @@ export default makeStyles((theme:Theme) => ({
   },
   profile: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     width: '400px',
     alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
@@ -54,12 +54,11 @@ export default makeStyles((theme:Theme) => ({
   brandContainer: {
     display: 'flex',
     alignItems: 'center',
+    paddingLeft:'10px'
   },
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
-  menuButton: {
-    marginRight: theme.spacing(1),
-  },
+  
 }));
