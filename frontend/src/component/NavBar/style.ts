@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import { deepPurple } from '@material-ui/core/colors';
 
-export default makeStyles((theme) => ({
+export default makeStyles((theme:Theme) => ({
   appBar: {
     borderRadius: 15,
     margin: '30px 0',
@@ -34,7 +34,7 @@ export default makeStyles((theme) => ({
   },
   profile: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     width: '400px',
     alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
@@ -58,5 +58,8 @@ export default makeStyles((theme) => ({
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
+  },
+  menuButton: {
+    marginRight: theme.spacing(1),
   },
 }));

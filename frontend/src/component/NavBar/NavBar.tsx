@@ -1,5 +1,6 @@
 import React, {useEffect,useState } from "react";
-import {AppBar, Avatar, Toolbar, Typography, Button} from "@material-ui/core";
+import {AppBar, Avatar, Toolbar, Typography, Button, IconButton} from "@material-ui/core";
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import useStyles from "./style";
 import MemoriesN from "../../images/MemoriesN.png";
 import cameraLense from "../../images/cameraLense.png";
@@ -51,6 +52,16 @@ const NavBar = () => {
                     ) : (
                         <Button component={Link} to="/auth" variant="contained" color="primary">Sign In</Button>
                     )}
+                    <IconButton
+                        edge="end"
+                        aria-label="account of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                        onClick={()=>{console.log('yahhoo');}}
+                        color="inherit"
+                        >
+                        <AccountCircle />
+                    </IconButton>
                 </Toolbar>
             </div>
         </AppBar>
