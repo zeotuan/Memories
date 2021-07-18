@@ -65,7 +65,7 @@ const Form = ({setCurId, curId}:FormProps) => {
         Object
             .keys(postData)
             .forEach((key) => {
-                formData.append(key,postData[key as keyof PostData]);               
+                postData[key as keyof PostData] && formData.append(key,postData[key as keyof PostData]);               
             });
         formData.append("tags",tags.join(","));
         imageFile && formData.append("file",imageFile);
