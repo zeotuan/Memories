@@ -64,14 +64,14 @@ export const getPostsBySearch = async (req, res) => {
 export const createPost = async (req,res) => {
     if(!req.userId){
         return res.status(400).json({error:'unauthenticated'}); 
-        
     }
     try {
         await upload(req,res);
         if(req.file){
             const body = req.body;
-            const newPost = new postMessage({...body,tags:body.tags.split(','), creator:req.userId, createdAt: new Date().toISOString()});
+            let newPost = new postMessage({...body,tags:body.tags.split(','), creator:req.userId, createdAt: new Date().toISOString()});
             newPost.file = req.file.id;
+            console.log(newPost);
             await newPost.save();
             return res.status(200).json(newPost);   
         }

@@ -9,7 +9,7 @@ const storage = new GridFsStorage({
     file: (req,file) => {
 
         const match = ["image/png", "image/jpeg", "image/jpg"];
-        if(match.indexOf(file.mimetype) !== 1){
+        if(match.indexOf(file.mimetype) !== -1){
             return {
                 bucketName:"photos",
                 filename:`${Date.now()}${file.originalname}`
@@ -19,6 +19,8 @@ const storage = new GridFsStorage({
         }
     },
 });
+
+
 
 const upload = multer({
     storage: storage,
