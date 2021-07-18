@@ -57,6 +57,7 @@ export const createPost = (newPost:FormData,history:History<Location>) => {
             dispatch({type:'STOP_LOADING'}); 
             dispatch(SET_SUCCESS_NOTIFICATION({message:"Post created successfully"}));
         } catch (error) {
+            history.push(`/`); 
             dispatch(SET_ERROR_NOTIFICATION({message:"Failed to create post"}));
             console.log(error);
         }
