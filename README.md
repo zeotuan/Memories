@@ -4,7 +4,7 @@
 
 ## Introduction
 Simple Social media app allow users to post, like and comment on events implemented using MERN stack
-This code was mainly inspired by https://youtube.com/playlist?list=PL6QREj8te1P7VSwhrMf3D3Xt4V6_SRkhu but with some of my own tweek
+This code was mainly inspired by https://youtube.com/playlist?list=PL6QREj8te1P7VSwhrMf3D3Xt4V6_SRkhu with some simple tweeks
 
 Setup:
 - follow [backend README](backend/README.md) and [frontend README](frontend/README.md) to setup environment
