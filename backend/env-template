@@ -1,0 +1,15 @@
+PORT = 3002
+MONGO_URI = 'mongodb+srv://<username>:<password>@<cluster>/Memories?retryWrites=true&w=majority'
+DEV_MONGO_URI = 'mongodb+srv://zeotuan:Hangul89@<cluster>/Memories-dev?retryWrites=true&w=majority'
+TEST_MONGO_URI = 'mongodb+srv://zeotuan:Hangul89@<cluster>/Memories-test?retryWrites=true&w=majority'
+JWT_SECRET='TO THE MOON'
+const saltRound = '10'
+dbName = 'Memories'
+photoCollectionName = 'photo'
+
+
+clientId = '' # google client id for registering oauth
+clientSecret = '' # google client secret for registering google oauth
+email = 'memories@gmail.com'
+emailPassword = '@A123123'
+host = 'http://localhost:'
